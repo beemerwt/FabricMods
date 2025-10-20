@@ -1,0 +1,6 @@
+{
+  xpModifier: 1.0,
+  drops: { baseChance: 0.0, maxChance: 0.0 },
+  ability: { name: "Serrated Strikes", baseDurationSeconds: 5, baseCooldownSeconds: 120, hasteAmplifier: 0 },
+  blocks: { }
+}

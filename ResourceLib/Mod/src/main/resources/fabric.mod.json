@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "resourcelib",
+  "version": "${version}",
+  "name": "ResourceLib",
+  "description": "A library mod for resource management and utilities",
+  "authors": ["BeemerWT"],
+  "license": "MIT",
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "com.github.beemerwt.resourcelib.ResourceLib"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  },
+  "suggests": {
+    "fabric-api": "*",
+    "geyser": "*"
+  }
+}

@@ -1,0 +1,23 @@
+plugins {
+    id("fabric-loom")
+    id("java")
+}
+
+allprojects {
+    group = "com.github.beemerwt.resourcelib"     // or com.github.beemerwt.resourcelib if you insist
+    version = mod_version
+
+    repositories {
+        mavenCentral()
+        maven { url "https://maven.fabricmc.net/" }
+    }
+}
+
+tasks.processResources {
+    inputs.property("version", project.mod_version)
+    filesMatching("fabric.mod.json") {
+        expand("version" to project.mod_version)
+    }
+}
+
+tasks.test { useJUnitPlatform() }

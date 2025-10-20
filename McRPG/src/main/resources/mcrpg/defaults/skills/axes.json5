@@ -1,0 +1,7 @@
+{
+  xpModifier: 1.0,
+  bossbarColor: "BLUE",
+  drops: { baseChance: 0.0, maxChance: 0.0 },
+  ability: { name: "Skull Splitter", baseDurationSeconds: 5, baseCooldownSeconds: 120, hasteAmplifier: 0 },
+  blocks: { }
+}

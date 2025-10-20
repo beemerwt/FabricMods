@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "events",
+  "version": "${version}",
+  "name": "Events",
+  "description": "An API for Fabric to hook various game events",
+  "authors": [ "BeemerWT" ],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.github.beemerwt.events.client.EventsClient"
+    ],
+    "main": [
+      "com.github.beemerwt.events.Events"
+    ]
+  },
+  "mixins": [
+    "events.mixins.json",
+    {
+      "config": "events.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "com.github.beemerwt.mcrpg.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "BlockOnPlacedMixin",
+    "CropBlockMixin",
+    "ScreenHandlerMixin",
+    "AbstractFurnaceScreenHandlerMixin",
+    "AbstractFurnaceBlockEntityMixin",
+    "PlayerInventoryMixin",
+    "ServerPlayerInteractionManagerMixin",
+    "access.DamageTrackerAccessor",
+    "access.CropBlockInvoker"
+  ],
+  "injectors": { "defaultRequire": 1 }
+}

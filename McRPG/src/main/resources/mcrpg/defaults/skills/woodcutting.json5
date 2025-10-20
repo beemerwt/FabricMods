@@ -1,0 +1,9 @@
+{
+  xpModifier: 1.0,
+  drops: { baseChance: 0.0, maxChance: 25.0 },
+  ability: { name: "Tree Feller", baseDurationSeconds: 5, baseCooldownSeconds: 120, hasteAmplifier: 0 },
+  blocks: {
+    "#minecraft:logs": 40,
+    "minecraft:bamboo_block": 20
+  }
+}

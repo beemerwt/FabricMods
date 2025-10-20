@@ -1,0 +1,6 @@
+{
+  xpModifier: 1.0,
+  bossbarColor: "BLUE",
+  drops: { baseChance: 0.0, maxChance: 0.0 },
+  blocks: { }
+}

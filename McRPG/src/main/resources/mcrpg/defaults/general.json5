@@ -1,0 +1,11 @@
+{
+  debug: false,
+  autoSaveEverySeconds: 120,
+  maxLevel: 1000, // max level a skill can reach
+  xpCurve: {
+    // One curve for all skills
+    base: "linear",       // "linear" | "quad"
+    linearPerLevel: 500,  // used only if base == "linear"
+    quadA: 25, quadB: 75, quadC: 150 // xpNeeded = a*L^2 + b*L + c
+  }
+}

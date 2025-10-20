@@ -1,0 +1,21 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+base { archivesName.set("api") } // artifactId
+
+publishing {
+    publications {
+        create('mavenJava', MavenPublication) {
+            from components.java
+            groupId = group
+            artifactId = base.archivesName.get()
+            version = project.version
+        }
+    }
+    repositories {
+        // Add your target if you want to publish locally or to GitHub Packages, etc.
+        // maven { url = uri("${rootProject.projectDir}/repo") }
+    }
+}

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "mcrpg",
+  "version": "${version}",
+  "name": "McRPG",
+  "environment": "server",
+  "entrypoints": {
+    "main": [ "com.github.beemerwt.mcrpg.McRPG" ]
+  },
+  "mixins": [ "mcrpg.mixins.json" ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

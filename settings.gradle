@@ -1,0 +1,13 @@
+pluginManagement {
+    repositories {
+        maven { url 'https://maven.fabricmc.net/' }
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
+rootProject.name = 'FabricMods'
+
+include ':beacontweaks', ':essence', ':mcrpg', ':events', ':fakeplayer', ':telekinesis'
+include ':resourcelib:API', ':resourcelib:Mod'
+

@@ -1,0 +1,28 @@
+import net.fabricmc.loom.task.RemapJarTask
+
+plugins {
+    id("fabric-loom")
+    id("java")
+}
+
+dependencies {
+    compileOnly("org.geysermc.geyser:api:${project.geyser_version}")
+
+    implementation(project(":resourcelib:API"))   // compile against the API
+    include(project(":resourcelib:API"))          // bundle API classes into the mod jar (Fabric Loom)
+}
+
+base {
+    // Controls the <name>-<version>.jar base name
+    archivesName = 'ResourceLib'
+}
+
+// Optional: force all archive tasks to use the same base name
+tasks.withType(AbstractArchiveTask).configureEach {
+    archiveBaseName.set('ResourceLib')
+}
+
+// Ensure the remapped runtime jar has no classifier
+tasks.named('remapJar', RemapJarTask) {
+    archiveClassifier.set('')   // results in ResourceLib-<version>.jar
+}

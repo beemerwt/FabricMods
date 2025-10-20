@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "fakeplayer",
+  "version": "1.0.0",
+  "name": "FakePlayer",
+  "description": "Server-only fake player spawner and command runner",
+  "authors": ["beemerwt"],
+  "license": "MIT",
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "com.github.beemerwt.fakeplayer.FakePlayer"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

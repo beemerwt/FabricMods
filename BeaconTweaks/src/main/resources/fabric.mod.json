@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "beacontweaks",
+  "version": "${version}",
+  "name": "BeaconTweaks",
+  "environment": "server",
+  "entrypoints": {
+    "main": [ "com.github.beemerwt.beacontweaks.BeaconTweaks" ]
+  },
+  "mixins": [
+    "beacontweaks.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

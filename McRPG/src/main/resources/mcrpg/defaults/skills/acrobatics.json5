@@ -1,0 +1,21 @@
+{
+  xpModifier: 1.0,
+  bossbarColor: "PINK",
+  abilities: {
+    "Roll": {
+      chanceMax: 100,         // The percentage chance of activation at max level
+      chanceMin: 20,          // The percentage chance of activation at level 0
+      cooldown: 10,           // Cooldown in seconds
+      damageReductionMax: 50, // The flat damage reduction at max level
+      damageReductionMin: 10, // The flat damage reduction at level 0
+      maxBonusLevel: 1000
+    },
+    "Dodge": {
+      chanceMax: 35,        // The percentage chance of activation at max level
+      chanceMin: 5,         // The percentage chance of activation at level 0
+      cooldown: 20,         // Cooldown in seconds
+      damageModifier: 2.0,  // The final damage will be divided by this value
+      maxBonusLevel: 1000
+    }
+  }
+}

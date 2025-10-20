@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "essence",
+  "version": "${version}",
+  "name": "Essence",
+  "description": "",
+  "authors": [ "BeemerWT" ],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "com.github.beemerwt.essence.Essence"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

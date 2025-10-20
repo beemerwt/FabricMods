@@ -1,0 +1,345 @@
+{
+  xpModifier: 1.0,
+  drops: { baseChance: 0.0, maxChance: 25.0 },
+  ability: { name: "Giga Drill", baseDurationSeconds: 5, baseCooldownSeconds: 120, hasteAmplifier: 0 },
+  blocks: {
+    "minecraft:dirt": 4,
+    "minecraft:sand": 4,
+    "minecraft:gravel": 6,
+    "minecraft:clay": 10
+  },
+  "treasures": {
+    "minecraft:heart_of_the_sea": {
+      amount: 1,
+      xp: 9999,
+      dropChance: 0.01,
+      levelRequirement: 900,
+      dropsFrom: [
+        "minecraft:mud"
+      ]
+    },
+    "minecraft:potato": {
+      amount: 1,
+      xp: 50,
+      dropChance: 3.0,
+      levelRequirement: 100,
+      dropsFrom: [
+        "minecraft:dirt",
+        "minecraft:mud"
+      ]
+    },
+    "minecraft:spyglass": {
+      amount: 1,
+      xp: 500,
+      dropChance: 0.1,
+      levelRequirement: 70,
+      dropsFrom: [
+        "minecraft:mud",
+        "minecraft:dirt"
+      ]
+    },
+    "minecraft:stick": {
+      amount: 2,
+      xp: 50,
+      dropChance: 2.0,
+      levelRequirement: 10,
+      dropsFrom: [
+        "minecraft:mud",
+        "minecraft:muddy_mangrove_roots"
+      ]
+    },
+    "minecraft:feather": {
+      amount: 3,
+      xp: 100,
+      dropChance: 1.0,
+      levelRequirement: 50,
+      dropsFrom: [
+        "minecraft:mud"
+      ]
+    },
+    "minecraft:trident": {
+      amount: 1,
+      xp: 100,
+      dropChance: 0.02,
+      levelRequirement: 400,
+      dropsFrom: [
+        "minecraft:mud",
+        "minecraft:clay",
+        "minecraft:muddy_mangrove_roots"
+      ]
+    },
+    "minecraft:cake": {
+      amount: 1,
+      xp: 3000,
+      dropChance: 0.05,
+      levelRequirement: 750,
+      dropsFrom: [
+        "minecraft:dirt",
+        "minecraft:coarse_dirt",
+        "minecraft:podzol",
+        "minecraft:grass_block",
+        "minecraft:sand",
+        "minecraft:red_sand",
+        "minecraft:gravel",
+        "minecraft:clay",
+        "minecraft:mycelium",
+        "minecraft:soul_sand",
+        "minecraft:soul_soil"
+      ]
+    },
+    "minecraft:gunpowder": {
+      amount: 1,
+      xp: 30,
+      dropChance: 10.0,
+      levelRequirement: 100,
+      dropsFrom: [
+        "minecraft:gravel"
+      ]
+    },
+    "minecraft:bone": {
+      amount: 1,
+      xp: 30,
+      dropChance: 10.0,
+      levelRequirement: 200,
+      dropsFrom: [
+        "minecraft:gravel",
+        "minecraft:mud"
+      ]
+    },
+    "minecraft:apple": {
+      amount: 1,
+      xp: 100,
+      dropChance: 0.1,
+      levelRequirement: 250,
+      dropsFrom: [
+        "minecraft:grass_block",
+        "minecraft:mycelium"
+      ]
+    },
+    "minecraft:slime_ball": {
+      amount: 1,
+      xp: 100,
+      dropChance: 5.0,
+      levelRequirement: 150,
+      dropsFrom: [
+        "minecraft:clay"
+      ]
+    },
+    "minecraft:bucket": {
+      amount: 1,
+      xp: 100,
+      dropChance: 0.1,
+      levelRequirement: 500,
+      dropsFrom: [
+        "minecraft:clay"
+      ],
+    },
+    "minecraft:netherrack": {
+      amount: 1,
+      xp: 30,
+      dropChance: 0.5,
+      levelRequirement: 850,
+      dropsFrom: [
+        "minecraft:gravel"
+      ]
+    },
+    "minecraft:red_mushroom": {
+      amount: 1,
+      xp: 80,
+      dropChance: 0.5,
+      levelRequirement: 500,
+      dropsFrom: [
+        "minecraft:dirt",
+        "minecraft:coarse_dirt",
+        "minecraft:podzol",
+        "minecraft:grass_block",
+        "minecraft:mycelium",
+        "minecraft:mud"
+      ]
+    },
+    "minecraft:brown_mushroom": {
+      amount: 1,
+      xp: 80,
+      dropChance: 0.5,
+      levelRequirement: 500,
+      dropsFrom: [
+        "minecraft:dirt",
+        "minecraft:coarse_dirt",
+        "minecraft:podzol",
+        "minecraft:grass_block",
+        "minecraft:mycelium",
+        "minecraft:mud"
+      ]
+    },
+    "minecraft:egg": {
+      amount: 1,
+      xp: 100,
+      dropChance: 1.0,
+      levelRequirement: 250,
+      dropsFrom: [
+        "minecraft:grass_block"
+      ]
+    },
+    "minecraft:soul_sand": {
+      amount: 1,
+      xp: 80,
+      dropChance: 0.5,
+      levelRequirement: 650,
+      dropsFrom: [
+        "minecraft:sand",
+        "minecraft:red_sand"
+      ]
+    },
+    "minecraft:clock": {
+      amount: 1,
+      xp: 100,
+      dropChance: 0.1,
+      levelRequirement: 500,
+      dropsFrom: [
+        "minecraft:clay"
+      ]
+    },
+    "minecraft:cobweb": {
+      amount: 1,
+      xp: 150,
+      dropChance: 5.0,
+      levelRequirement: 750,
+      dropsFrom: [
+        "minecraft:clay"
+      ]
+    },
+    "minecraft:string": {
+      amount: 1,
+      xp: 200,
+      dropChance: 5.0,
+      levelRequirement: 250,
+      dropsFrom: [
+        "minecraft:clay"
+      ]
+    },
+    "minecraft:glowstone_dust": {
+      amount: 1,
+      xp: 80,
+      dropChance: 5.0,
+      levelRequirement: 50,
+      dropsFrom: [
+        "minecraft:dirt",
+        "minecraft:coarse_dirt",
+        "minecraft:podzol",
+        "minecraft:grass_block",
+        "minecraft:sand",
+        "minecraft:red_sand",
+        "minecraft:mycelium"
+      ]
+    },
+    "minecraft:music_disc_13": {
+      amount: 1,
+      xp: 3000,
+      dropChance: 0.05,
+      levelRequirement: 250,
+      dropsFrom: [
+        "minecraft:dirt",
+        "minecraft:coarse_dirt",
+        "minecraft:podzol",
+        "minecraft:grass_block",
+        "minecraft:sand",
+        "minecraft:red_sand",
+        "minecraft:gravel",
+        "minecraft:clay",
+        "minecraft:mycelium",
+        "minecraft:soul_sand",
+        "minecraft:soul_soil"
+      ]
+    },
+    "minecraft:music_disc_cat": {
+      amount: 1,
+      xp: 3000,
+      dropChance: 0.05,
+      levelRequirement: 250,
+      dropsFrom: [
+        "minecraft:dirt",
+        "minecraft:coarse_dirt",
+        "minecraft:podzol",
+        "minecraft:grass_block",
+        "minecraft:sand",
+        "minecraft:red_sand",
+        "minecraft:gravel",
+        "minecraft:clay",
+        "minecraft:mycelium",
+        "minecraft:soul_sand",
+        "minecraft:soul_soil"
+      ]
+    },
+    "minecraft:diamond": {
+      amount: 1,
+      xp: 1000,
+      dropChance: 0.13,
+      levelRequirement: 350,
+      dropsFrom: [
+        "minecraft:dirt",
+        "minecraft:coarse_dirt",
+        "minecraft:podzol",
+        "minecraft:grass_block",
+        "minecraft:sand",
+        "minecraft:red_sand",
+        "minecraft:gravel",
+        "minecraft:clay",
+        "minecraft:mycelium",
+        "minecraft:soul_sand",
+        "minecraft:soul_soil",
+        "minecraft:mud"
+      ]
+    },
+    "minecraft:cocoa_beans": {
+      amount: 1,
+      xp: 100,
+      dropChance: 1.33,
+      levelRequirement: 350,
+      dropsFrom: [
+        "minecraft:dirt",
+        "minecraft:coarse_dirt",
+        "minecraft:podzol",
+        "minecraft:grass_block",
+        "minecraft:mycelium",
+        "minecraft:mud"
+      ]
+    },
+    "minecraft:quartz": {
+      amount: 1,
+      xp: 100,
+      dropChance: 0.5,
+      levelRequirement: 850,
+      dropsFrom: [
+        "minecraft:dirt",
+        "minecraft:coarse_dirt",
+        "minecraft:podzol",
+        "minecraft:grass_block",
+        "minecraft:sand",
+        "minecraft:red_sand",
+        "minecraft:gravel",
+        "minecraft:mycelium",
+        "minecraft:soul_sand",
+        "minecraft:soul_soil"
+      ],
+    },
+    "minecraft:name_tag": {
+      amount: 1,
+      xp: 3000,
+      dropChance: 0.05,
+      levelRequirement: 250,
+      dropsFrom: [
+        "minecraft:dirt",
+        "minecraft:coarse_dirt",
+        "minecraft:podzol",
+        "minecraft:grass_block",
+        "minecraft:sand",
+        "minecraft:red_sand",
+        "minecraft:gravel",
+        "minecraft:clay",
+        "minecraft:mycelium",
+        "minecraft:soul_sand",
+        "minecraft:soul_soil"
+      ],
+    }
+  }
+}

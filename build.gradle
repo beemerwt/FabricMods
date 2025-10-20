@@ -1,0 +1,64 @@
+plugins {
+    id 'base'
+    id 'fabric-loom' version '1.11-SNAPSHOT' apply false
+}
+
+allprojects {
+    group = 'com.github.beemerwt'
+
+    repositories {
+        mavenCentral()
+        maven { url 'https://maven.fabricmc.net/' }
+        maven { url "https://repo.opencollab.dev/main/" }
+    }
+}
+
+subprojects {
+    plugins.withId('java') {
+        java {
+            toolchain {
+                languageVersion = JavaLanguageVersion.of(21)
+            }
+            withSourcesJar()
+        }
+
+        tasks.withType(JavaCompile).configureEach {
+            options.encoding = 'UTF-8'
+            options.release = 21
+        }
+
+        dependencies {
+            testImplementation platform("org.junit:junit-bom:5.10.0")
+            testImplementation "org.junit.jupiter:junit-jupiter"
+            testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+        }
+
+        test { useJUnitPlatform() }
+    }
+
+    plugins.withId('fabric-loom') {
+        dependencies {
+            minecraft "com.mojang:minecraft:${project.minecraft_version}"
+            mappings  "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+            modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+            modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+        }
+
+        processResources {
+            inputs.property 'version', project.version
+            inputs.property 'minecraft_version', project.minecraft_version
+            inputs.property 'loader_version', project.loader_version
+            inputs.property 'fabric_version', project.fabric_version
+            filteringCharset 'UTF-8'
+
+            filesMatching('fabric.mod.json') {
+                expand(
+                        version: project.version,
+                        minecraft_version: project.minecraft_version,
+                        loader_version: project.loader_version,
+                        fabric_version: project.fabric_version
+                )
+            }
+        }
+    }
+}
