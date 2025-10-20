@@ -19,6 +19,7 @@
             <option value="$PROJECT_DIR$/resourcelib/Mod" />
             <option value="$PROJECT_DIR$/spawnertweaks" />
             <option value="$PROJECT_DIR$/telekinesis" />
+            <option value="$PROJECT_DIR$/wrench" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="true" />

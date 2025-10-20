@@ -23,6 +23,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/spawnertweaks/FabricMods.spawnertweaks.test.iml" filepath="$PROJECT_DIR$/.idea/modules/spawnertweaks/FabricMods.spawnertweaks.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/telekinesis/FabricMods.telekinesis.main.iml" filepath="$PROJECT_DIR$/.idea/modules/telekinesis/FabricMods.telekinesis.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/telekinesis/FabricMods.telekinesis.test.iml" filepath="$PROJECT_DIR$/.idea/modules/telekinesis/FabricMods.telekinesis.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wrench/FabricMods.wrench.main.iml" filepath="$PROJECT_DIR$/.idea/modules/wrench/FabricMods.wrench.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wrench/FabricMods.wrench.test.iml" filepath="$PROJECT_DIR$/.idea/modules/wrench/FabricMods.wrench.test.iml" />
     </modules>
   </component>
 </project>

@@ -1,0 +1,17 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Wrench Pack",
+    "description": "Adds a custom copper wrench model for Bedrock players via Geyser.",
+    "uuid": "1cf591d7-4695-46bd-bcd7-7d4f132967e0",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 21, 0]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "c7a6d906-d2f9-4bcd-9972-7d4fa8f70c63",
+      "version": [1, 0, 0]
+    }
+  ]
+}

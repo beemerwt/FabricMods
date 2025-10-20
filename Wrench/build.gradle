@@ -1,0 +1,11 @@
+plugins {
+    id 'java'
+    id 'fabric-loom'
+}
+
+version = project.mod_version
+
+dependencies {
+    compileOnly("org.geysermc.geyser:api:${project.geyser_version}")
+    compileOnly(project(":resourcelib:API"))
+}

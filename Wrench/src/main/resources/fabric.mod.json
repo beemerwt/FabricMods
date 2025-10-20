@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "wrench",
+  "version": "${version}",
+  "name": "Wrench",
+  "environment": "server",
+  "entrypoints": {
+    "server": [ "com.github.beemerwt.wrench.Wrench" ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}",
+    "resourcelib": ">=1.0.0"
+  }
+}
