@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "spawnertweaks",
+  "version": "${version}",
+  "name": "SpawnerTweaks",
+  "environment": "server",
+  "entrypoints": {
+    "server": [ "com.github.beemerwt.spawnertweaks.SpawnerTweaks" ]
+  },
+  "mixins": ["spawnertweaks.mixins.json"],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

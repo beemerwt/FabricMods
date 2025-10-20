@@ -19,6 +19,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/resourcelib/Mod/FabricMods.resourcelib.Mod.test.iml" filepath="$PROJECT_DIR$/.idea/modules/resourcelib/Mod/FabricMods.resourcelib.Mod.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/resourcelib/FabricMods.resourcelib.main.iml" filepath="$PROJECT_DIR$/.idea/modules/resourcelib/FabricMods.resourcelib.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/resourcelib/FabricMods.resourcelib.test.iml" filepath="$PROJECT_DIR$/.idea/modules/resourcelib/FabricMods.resourcelib.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/spawnertweaks/FabricMods.spawnertweaks.main.iml" filepath="$PROJECT_DIR$/.idea/modules/spawnertweaks/FabricMods.spawnertweaks.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/spawnertweaks/FabricMods.spawnertweaks.test.iml" filepath="$PROJECT_DIR$/.idea/modules/spawnertweaks/FabricMods.spawnertweaks.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/telekinesis/FabricMods.telekinesis.main.iml" filepath="$PROJECT_DIR$/.idea/modules/telekinesis/FabricMods.telekinesis.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/telekinesis/FabricMods.telekinesis.test.iml" filepath="$PROJECT_DIR$/.idea/modules/telekinesis/FabricMods.telekinesis.test.iml" />
     </modules>

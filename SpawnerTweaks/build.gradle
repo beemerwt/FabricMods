@@ -1,0 +1,10 @@
+plugins {
+    id 'java'
+    id 'fabric-loom'
+}
+
+version = project.mod_version
+
+dependencies {
+    implementation("it.unimi.dsi:fastutil:8.5.13")
+}
