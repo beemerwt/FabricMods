@@ -1,0 +1,16 @@
+plugins {
+    id 'fabric-loom'
+    id 'java'
+}
+
+group = 'com.github.beemerwt'
+version = project.mod_version
+
+base {
+    archivesName = 'quieter'
+}
+
+dependencies {
+    compileOnly("org.geysermc.geyser:api:${project.geyser_version}")
+    compileOnly(project(":resourcelib:API"))
+}

@@ -8,15 +8,15 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
-import static com.github.beemerwt.essence.core.command.LiteralShim.literal;
+import static net.minecraft.server.command.CommandManager.literal;
 
 public class WrenchCommands {
 
     public static void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher)
     {
-        dispatcher.register(literal("essence", "wrench")
+        dispatcher.register(literal("wrench")
             .requires(src -> src.hasPermissionLevel(2) || hasPerm(src, "wrench.admin"))
-            .then(literal("essence", "give")
+            .then(literal("give")
                 .executes(ctx -> {
                     var src = ctx.getSource();
                     var p = src.getPlayer();
@@ -28,9 +28,9 @@ public class WrenchCommands {
             )
         );
 
-        dispatcher.register(literal("essence", "wrench")
+        dispatcher.register(literal("wrench")
             .requires(src -> src.hasPermissionLevel(2))
-            .then(literal("essence", "reload").executes(ctx -> {
+            .then(literal("reload").executes(ctx -> {
                 Wrench.CONFIG = WrenchConfig.load();
                 ctx.getSource().sendFeedback(() -> Text.literal("[Wrench] Config reloaded."), false);
                 return 1;
