@@ -1,12 +1,19 @@
 package com.github.beemerwt.fakeplayer;
 
 import com.mojang.authlib.GameProfile;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.entity.MovementType;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.scoreboard.AbstractTeam;
+import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.scoreboard.Team;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -22,6 +29,38 @@ public final class FakePlayerRegistry {
 
     public static void init() {
         config = FakePlayerConfigManager.load();
+
+        ServerTickEvents.START_WORLD_TICK.register(world -> {
+            for (ServerPlayerEntity p : world.getPlayers()) {
+                if (!p.getCommandTags().contains("fakeplayer")) continue;
+
+                // Keep invisibility up
+                if (!p.isInvisible()) p.setInvisible(true);
+                if (!p.hasStatusEffect(StatusEffects.INVISIBILITY)) {
+                    p.addStatusEffect(new StatusEffectInstance(
+                        StatusEffects.INVISIBILITY, 20 * 60 * 5, 0, true, false, false));
+                }
+            }
+        });
+
+        ServerTickEvents.END_WORLD_TICK.register(world -> {
+            for (ServerPlayerEntity p : world.getPlayers()) {
+                if (!p.getCommandTags().contains("fakeplayer")) continue;
+
+                // if any of these are on, skip gravity (matches vanilla)
+                if (p.hasNoGravity() || p.noClip || p.getAbilities().flying) continue;
+
+                // apply gravity + drag and move
+                double g = p.getFinalGravity();               // uses vanilla gravity (accounts for effects)
+                var v = p.getVelocity().add(0.0, -g, 0.0);
+
+                // vanilla-ish drag; on ground Y drag is handled after collisions, keep it simple:
+                v = new Vec3d(v.x * 0.98, v.y * 0.98, v.z * 0.98);
+
+                p.setVelocity(v);                        // marks velocity dirty for clients
+                p.move(MovementType.SELF, v);            // resolves collisions & sets onGround
+            }
+        });
     }
 
     public static FakePlayerConfig getConfig() {
@@ -55,15 +94,13 @@ public final class FakePlayerRegistry {
 
         var conn = new NullClientConnection();
         var player = FakePlayerSpawner.createAndJoin(server, conn, profile, world, pos, yaw, pitch);
-        FakeVanish.hideForAll(server, player);
-        ghostify(player);
 
         playersById.put(uuid, player);
         nameToId.put(name.toLowerCase(Locale.ROOT), uuid);
 
         // upsert into config (autoSpawn=true by default)
         String dim = FakePlayerConfigManager.dimToString(world.getRegistryKey());
-        upsertConfigEntry(name, dim, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, yaw, pitch, true);
+        upsertConfigEntry(name, dim, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, yaw, pitch);
         saveConfig();
         return player;
     }
@@ -86,51 +123,15 @@ public final class FakePlayerRegistry {
         return true;
     }
 
-    private static void ghostify(ServerPlayerEntity p) {
-        p.setInvisible(true);
-        p.setSilent(true);
-        p.setInvulnerable(true);
-        p.noClip = true;                    // no collisions
-        p.setNoGravity(true);               // no gravity
-        p.setVelocity(0, 0, 0);    // static
-        p.setSprinting(false);
-        p.setSneaking(false);
-
-        // Prevent accidental movement updates/sounds
-        p.setOnGround(true);
-        p.fallDistance = 0.0f;
-
-        // Scoreboard team: kill ALL collisions server-side
-        var sb = p.getEntityWorld().getServer().getScoreboard();
-        var teamName = "fakeplayer:ghost";
-        var team = sb.getTeam(teamName);
-        if (team == null) {
-            team = sb.addTeam(teamName);
-            team.setCollisionRule(AbstractTeam.CollisionRule.NEVER);
-            team.setNameTagVisibilityRule(AbstractTeam.VisibilityRule.NEVER);
-            team.setFriendlyFireAllowed(false); // irrelevant, but harmless
-            team.setShowFriendlyInvisibles(false);
-        }
-
-        // Preferred on newer Yarn:
-        try {
-            // 1.21.x API – adds and broadcasts correctly
-            sb.addScoreHolderToTeam(p.getUuidAsString(), team);
-        } catch (NoSuchMethodError ignore) {
-            // Fallback: manipulate the member set (works if method isn’t present)
-            team.getPlayerList().add(p.getUuidAsString());
-        }
-    }
-
     private static void upsertConfigEntry(String name, String dim, double x, double y, double z,
-                                          float yaw, float pitch, boolean autoSpawn) {
+                                          float yaw, float pitch) {
         for (var e : config.players) {
             if (e.name.equalsIgnoreCase(name)) {
-                e.dimension = dim; e.x = x; e.y = y; e.z = z; e.yaw = yaw; e.pitch = pitch; e.autoSpawn = autoSpawn;
+                e.dimension = dim; e.x = x; e.y = y; e.z = z; e.yaw = yaw; e.pitch = pitch; e.autoSpawn = true;
                 return;
             }
         }
-        config.players.add(new FakePlayerConfig.Entry(name, dim, x, y, z, yaw, pitch, autoSpawn));
+        config.players.add(new FakePlayerConfig.Entry(name, dim, x, y, z, yaw, pitch, true));
     }
 
     private static UUID uuidFromName(String name) {

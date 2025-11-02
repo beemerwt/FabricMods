@@ -7,7 +7,10 @@
   "entrypoints": {
     "main": [ "com.github.beemerwt.mcrpg.McRPG" ]
   },
-  "mixins": [ "mcrpg.mixins.json" ],
+  "mixins": [ {
+    "config": "mcrpg.mixins.json",
+    "environment": "server"
+  } ],
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",

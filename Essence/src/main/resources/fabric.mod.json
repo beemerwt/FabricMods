@@ -7,12 +7,16 @@
   "authors": [ "BeemerWT" ],
   "contact": {},
   "license": "All-Rights-Reserved",
-  "environment": "server",
+  "environment": "*",
   "entrypoints": {
     "main": [
-      "com.github.beemerwt.essence.Essence"
+      "com.github.beemerwt.essence.core.Essence"
+    ],
+    "client": [
+      "com.github.beemerwt.essence.client.EssenceClient"
     ]
   },
+  "mixins": [ "essence.mixins.json" ],
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",

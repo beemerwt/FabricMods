@@ -7,7 +7,10 @@
   "entrypoints": {
     "server": [ "com.github.beemerwt.spawnertweaks.SpawnerTweaks" ]
   },
-  "mixins": ["spawnertweaks.mixins.json"],
+  "mixins": [{
+    "config": "spawnertweaks.mixins.json",
+    "environment": "server"
+  }],
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",

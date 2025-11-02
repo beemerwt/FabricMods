@@ -10,6 +10,7 @@ import com.github.beemerwt.mcrpg.util.ItemClassifier;
 import com.github.beemerwt.mcrpg.data.Leveling;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -38,16 +39,20 @@ public class Mining {
         var blocks = cfg.getBlocks();
         var block = state.getBlock();
 
+        var blockKey = Registries.BLOCK.getId(block).toString();
+        var isWhitelisted = cfg.whitelist.contains(blockKey);
+
         long blockXp = Leveling.resolveBlockXp(blocks, block);
-        if (blockXp <= 0) return;
+        if (blockXp <= 0 && !isWhitelisted) return; // Allow whitelisted blocks with 0 XP
 
         int level = Leveling.getLevel(player, SkillType.MINING);
 
         // Only trigger skills if the player is using a pickaxe
         var tool = player.getMainHandStack().getItem();
-        if (ItemClassifier.isPickaxe(tool) && BlockClassifier.isOre(block))
+        if (ItemClassifier.isPickaxe(tool))
             // TODO: Implement whitelist/blacklist for blocks that can trigger double drops
-            if (DoubleDrops.processTrigger(cfg.doubleDrops, level, player.getEntityWorld(), pos, block, drops))
+            if (DoubleDrops.processTrigger(cfg.doubleDrops, cfg.blacklist, level,
+                    player.getEntityWorld(), pos, block, drops))
                 blockXp *= 2; // Double the XP awarded
 
         // Apply per-skill modifier
@@ -56,7 +61,7 @@ public class Mining {
         if (awarded <= 0) return;
 
         McRPG.getLogger().debug("{} Mining XP awarded to {} for block broken {}",
-                awarded, player.getName(), block);
+                awarded, player.getStringifiedName(), block.getName());
         Leveling.addXp(player, SkillType.MINING, awarded);
     }
 }

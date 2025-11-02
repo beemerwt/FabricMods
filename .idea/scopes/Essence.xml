@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Essence" pattern="[FabricMods.essence*]:*..*||file[FabricMods.essence*]:gradle//*||file[FabricMods.essence*]:build.gradle||file[FabricMods.essence*]:gradle.properties" />
+</component>

@@ -26,15 +26,33 @@ public abstract class ServerWorld_ItemSpawnMixin {
                 Logger.getLogger("Telekinesis").info("Item spawned: " + entity);
             }
 
+            if (item.getCommandTags().contains(TeleContext.TK_BYPASS_TAG)) return;
+
             // Don’t vacuum a player’s own throw/drop
             if (TeleContext.isGuardedPlayerDrop(item)) return;
 
-            ServerPlayerEntity breaker = BreakZones.breakerFor(world, item.getEntityPos());
-            if (breaker != null) {
-                if (TeleContext.vacuumTo(item, breaker)) {
-                    // fully captured: cancel spawn
-                    cir.setReturnValue(false);
-                }
+            // 1) During active BEFORE..AFTER session: buffer
+            if (BreakZones.bufferIfActive(world, item)) {
+                cir.setReturnValue(false);
+                return;
+            }
+
+            // 2) AFTER commit (same tick): linger vacuum
+            if (BreakZones.tryLingerCapture(world, item)) {
+                cir.setReturnValue(false);
+                return;
+            }
+
+            // 3) block cascade linger (multi-tick)
+            if (BreakZones.tryColumnCapture(world, item)) {
+                cir.setReturnValue(false);
+                return;
+            }
+
+            // 4) mob linger (multi-tick TTL)
+            if (BreakZones.tryMobLingerCapture(world, item)) {
+                cir.setReturnValue(false);
+                return;
             }
 
             return;
@@ -46,14 +64,22 @@ public abstract class ServerWorld_ItemSpawnMixin {
                 Logger.getLogger("Telekinesis").info("Orb spawned: " + entity);
             }
 
-            ServerPlayerEntity credited = BreakZones.breakerFor(world, orb.getEntityPos());
-            if (credited != null && !credited.isRemoved() && !credited.isDead()) {
-                // Let vanilla handle pickup rules + Mending routing.
-                // This credits XP and removes the orb.
-                orb.onPlayerCollision(credited);
-
-                // We’ve handled it; prevent the orb from spawning in the world.
+            // 1) buffer XP during session
+            if (BreakZones.bufferXpIfActive(world, orb)) {
                 cir.setReturnValue(false);
+                return;
+            }
+
+            // 2) linger credit in same tick after commit
+            if (BreakZones.tryLingerCreditXp(world, orb)) {
+                cir.setReturnValue(false);
+                return;
+            }
+
+            // 4) mob linger (multi-tick TTL)
+            if (BreakZones.tryMobLingerCreditXp(world, orb)) {
+                cir.setReturnValue(false);
+                return;
             }
         }
     }

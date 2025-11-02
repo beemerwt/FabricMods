@@ -12,6 +12,7 @@ import com.github.beemerwt.mcrpg.config.ability.SuperBreakerConfig;
 import com.github.beemerwt.mcrpg.data.ActiveAbilityType;
 import com.github.beemerwt.mcrpg.data.SkillType;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -92,6 +93,21 @@ public class MiningConfig extends SkillConfig implements IHasBlocks {
         Map.entry("minecraft:glowstone", 15),
         Map.entry("minecraft:packed_ice", 15),
         Map.entry("minecraft:blue_ice", 45)
+    );
+
+    @JankComment("""
+        A list of blocks that can and cannot trigger double drops.
+        Use the whitelist to explicitly allow blocks that are otherwise not eligible for double drops (don't award XP).
+        Use the blacklist to explicitly disallow blocks that are otherwise eligible for double drops.
+        If both lists are empty, all blocks that award XP are eligible for double drops.
+        A block must be mined by a pickaxe to trigger double drops regardless of these lists.
+        """)
+    public List<String> whitelist = List.of();
+    public List<String> blacklist = List.of(
+        "minecraft:stone",
+        "minecraft:cobblestone",
+        "minecraft:mossy_cobblestone",
+        "minecraft:netherrack"
     );
 
     public MiningConfig() {

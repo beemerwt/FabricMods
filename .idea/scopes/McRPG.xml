@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="McRPG" pattern="[FabricMods.mcrpg*]:*..*||file[FabricMods.mcrpg*]:gradle//*||file[FabricMods.mcrpg*]:build.gradle||file[FabricMods.mcrpg*]:gradle.properties" />
+</component>

@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="FakePlayer" pattern="[FabricMods.fakeplayer*]:*..*||file[FabricMods.fakeplayer*]:gradle//*||file[FabricMods.fakeplayer*]:build.gradle||file[FabricMods.fakeplayer*]:gradle.properties" />
+</component>

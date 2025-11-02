@@ -8,6 +8,8 @@ pluginManagement {
 
 rootProject.name = 'FabricMods'
 
-include ':beacontweaks', ':essence', ':mcrpg', ':events', ':fakeplayer', ':telekinesis', ':spawnertweaks', ':wrench'
+include ':commands'
 include ':resourcelib:API', ':resourcelib:Mod'
 
+include ':beacontweaks', ':essence', ':mcrpg', ':events', ':fakeplayer',
+    ':telekinesis', ':spawnertweaks', ':wrench', ":quieter"
