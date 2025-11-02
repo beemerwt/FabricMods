@@ -7,7 +7,7 @@
 /Essence/.gradle/
 /Essence/build/
 /Essence/build/classes/java/main/
-/Essence/run/
+/Essence/run/**/*
 /Events/.gradle/
 /Events/build/
 /Events/build/classes/java/client/
