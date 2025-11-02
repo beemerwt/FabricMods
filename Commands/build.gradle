@@ -12,14 +12,6 @@ base {
 }
 
 loom {
-    splitEnvironmentSourceSets()
-
-    mods {
-        "commands" {
-            sourceSet sourceSets.main
-        }
-    }
-
     mixin {
         defaultRefmapName = "commands.refmap.json"
     }

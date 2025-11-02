@@ -1,7 +1,7 @@
 package com.github.beemerwt.mcrpg.skills;
 
+import com.github.beemerwt.events.PlayerEvents;
 import com.github.beemerwt.mcrpg.McRPG;
-import com.github.beemerwt.mcrpg.callback.PlayerEvents;
 import com.github.beemerwt.mcrpg.config.skills.RepairConfig;
 import com.github.beemerwt.mcrpg.data.Leveling;
 import com.github.beemerwt.mcrpg.data.SkillType;
@@ -9,6 +9,8 @@ import com.github.beemerwt.mcrpg.managers.ConfigManager;
 import com.github.beemerwt.mcrpg.text.Component;
 import com.github.beemerwt.mcrpg.text.NamedTextColor;
 import com.github.beemerwt.mcrpg.util.*;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
@@ -19,6 +21,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Math;
 
 import java.util.Objects;
@@ -37,6 +42,23 @@ public final class Repair {
 
     public static void register() {
         PlayerEvents.INTERACT_ITEM.register(Repair::onItemInteract);
+        PlayerEvents.BLOCK_PLACED.register(Repair::onBlockPlaced);
+    }
+
+    private static void onBlockPlaced(
+        World world, @Nullable LivingEntity placer, BlockPos pos, BlockState state, ItemStack stack
+    ) {
+        if (!(placer instanceof ServerPlayerEntity sp)) return;
+
+        var block = state.getBlock();
+        if (!BlockClassifier.isIronBlock(block)) return;
+
+        McRPG.getLogger().debug("Player {} placed an anvil at {}", sp.getName().getString(), pos);
+
+        // These blocks are used in custom crafting recipes and should not be tracked.
+        SoundUtil.playSound(sp, SoundEvents.BLOCK_ANVIL_PLACE, 1.0f, 0.3f);
+        Messenger.actionBar(sp, Component.text("You have placed an anvil. Anvils can repair tools and armor.",
+            NamedTextColor.GREEN));
     }
 
     private static ActionResult onItemInteract(ServerPlayerEntity player, ItemStack itemStack, Hand hand) {

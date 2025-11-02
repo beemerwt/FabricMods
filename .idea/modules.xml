@@ -7,14 +7,12 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/beacontweaks/FabricMods.beacontweaks.main.iml" filepath="$PROJECT_DIR$/.idea/modules/beacontweaks/FabricMods.beacontweaks.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/beacontweaks/FabricMods.beacontweaks.test.iml" filepath="$PROJECT_DIR$/.idea/modules/beacontweaks/FabricMods.beacontweaks.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Commands/FabricMods.commands.iml" filepath="$PROJECT_DIR$/.idea/modules/Commands/FabricMods.commands.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/commands/FabricMods.commands.client.iml" filepath="$PROJECT_DIR$/.idea/modules/commands/FabricMods.commands.client.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Commands/FabricMods.commands.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Commands/FabricMods.commands.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Commands/FabricMods.commands.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Commands/FabricMods.commands.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/essence/FabricMods.essence.iml" filepath="$PROJECT_DIR$/.idea/modules/essence/FabricMods.essence.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/essence/FabricMods.essence.main.iml" filepath="$PROJECT_DIR$/.idea/modules/essence/FabricMods.essence.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/essence/FabricMods.essence.test.iml" filepath="$PROJECT_DIR$/.idea/modules/essence/FabricMods.essence.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/events/FabricMods.events.iml" filepath="$PROJECT_DIR$/.idea/modules/events/FabricMods.events.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/events/FabricMods.events.client.iml" filepath="$PROJECT_DIR$/.idea/modules/events/FabricMods.events.client.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/events/FabricMods.events.main.iml" filepath="$PROJECT_DIR$/.idea/modules/events/FabricMods.events.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/events/FabricMods.events.test.iml" filepath="$PROJECT_DIR$/.idea/modules/events/FabricMods.events.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/fakeplayer/FabricMods.fakeplayer.iml" filepath="$PROJECT_DIR$/.idea/modules/fakeplayer/FabricMods.fakeplayer.iml" />
@@ -27,6 +25,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/quieter/FabricMods.quieter.main.iml" filepath="$PROJECT_DIR$/.idea/modules/quieter/FabricMods.quieter.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/quieter/FabricMods.quieter.test.iml" filepath="$PROJECT_DIR$/.idea/modules/quieter/FabricMods.quieter.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/resourcelib/FabricMods.resourcelib.iml" filepath="$PROJECT_DIR$/.idea/modules/resourcelib/FabricMods.resourcelib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/resourcelib/Mod/FabricMods.resourcelib.Mod.iml" filepath="$PROJECT_DIR$/.idea/modules/resourcelib/Mod/FabricMods.resourcelib.Mod.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/resourcelib/Mod/FabricMods.resourcelib.Mod.main.iml" filepath="$PROJECT_DIR$/.idea/modules/resourcelib/Mod/FabricMods.resourcelib.Mod.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/resourcelib/Mod/FabricMods.resourcelib.Mod.test.iml" filepath="$PROJECT_DIR$/.idea/modules/resourcelib/Mod/FabricMods.resourcelib.Mod.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/resourcelib/FabricMods.resourcelib.main.iml" filepath="$PROJECT_DIR$/.idea/modules/resourcelib/FabricMods.resourcelib.main.iml" />

@@ -6,6 +6,7 @@ import com.github.beemerwt.mcrpg.events.*;
 import com.github.beemerwt.mcrpg.managers.ConfigManager;
 import com.github.beemerwt.mcrpg.data.PlayerStore;
 import com.github.beemerwt.mcrpg.managers.AbilityManager;
+import com.github.beemerwt.mcrpg.persistent.PlacedBlockTracker;
 import com.github.beemerwt.mcrpg.skills.*;
 import com.github.beemerwt.mcrpg.ui.HealthbarHover;
 import com.github.beemerwt.mcrpg.ui.XpBossbarManager;
@@ -53,7 +54,8 @@ public class McRPG implements ModInitializer {
         AbilityManager.init();
 
         store = PlayerStore.create();
-        BlockEvents.register();
+        PlacedBlockTracker.register();
+
         AbilityEvents.register();
         CombatEvents.register();
 
@@ -66,11 +68,14 @@ public class McRPG implements ModInitializer {
         HealthbarHover.init();
 
         Acrobatics.register();
+        Excavation.register();
         Herbalism.register();
+        Mining.register();
         Repair.register();
         Salvage.register();
         Smelting.register();
         Swords.register();
+        Woodcutting.register();
 
         ServerPlayerEvents.JOIN.register(player -> {
             store.ensurePlayerRow(player.getUuid(), player.getStringifiedName());

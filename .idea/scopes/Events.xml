@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Events" pattern="[FabricMods.events*]:*..*||file[FabricMods.events*]:gradle//*||file[FabricMods.events*]:build.gradle||file[FabricMods.events*]:gradle.properties" />
+</component>

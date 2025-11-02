@@ -1,18 +1,25 @@
 package com.github.beemerwt.mcrpg.skills;
 
+import com.github.beemerwt.events.FurnaceEvents;
+import com.github.beemerwt.events.PlayerEvents;
+import com.github.beemerwt.events.ScreenHandlerEvents;
+import com.github.beemerwt.events.proxy.AbstractFurnaceBlockEntityProxy;
 import com.github.beemerwt.mcrpg.McRPG;
-import com.github.beemerwt.mcrpg.callback.FurnaceEvents;
-import com.github.beemerwt.mcrpg.callback.ScreenHandlerEvents;
 import com.github.beemerwt.mcrpg.managers.ConfigManager;
 import com.github.beemerwt.mcrpg.config.skills.SmeltingConfig;
 import com.github.beemerwt.mcrpg.data.SkillType;
 import com.github.beemerwt.mcrpg.persistent.FurnaceSlotOwners;
-import com.github.beemerwt.mcrpg.proxies.AbstractFurnaceBlockEntityProxy;
 import com.github.beemerwt.mcrpg.text.Component;
 import com.github.beemerwt.mcrpg.text.NamedTextColor;
 import com.github.beemerwt.mcrpg.data.Leveling;
+import com.github.beemerwt.mcrpg.util.BlockClassifier;
 import com.github.beemerwt.mcrpg.util.Messenger;
+import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FuelRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
@@ -22,6 +29,8 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Math;
 
 import java.util.IdentityHashMap;
@@ -41,8 +50,35 @@ public final class Smelting {
         ScreenHandlerEvents.AFTER_QUICK_MOVE.register(Smelting::onAfterItemChange);
         ScreenHandlerEvents.CLOSED.register(Smelting::onScreenClosed);
 
+        PlayerEvents.BLOCK_PLACED.register(Smelting::onBlockPlaced);
+        PlayerBlockBreakEvents.AFTER.register(Smelting::onBlockBroken);
+
         FurnaceEvents.ITEM_SMELTED.register(Smelting::onItemSmelted);
         FurnaceEvents.FUEL_CONSUMED.register(Smelting::onFuelConsumed);
+    }
+
+    private static void onBlockPlaced(
+        World world, @Nullable LivingEntity placer, BlockPos pos, BlockState state, ItemStack stack
+    ) {
+        if (!(world instanceof ServerWorld sw)) return;
+        if (!(placer instanceof ServerPlayerEntity sp)) return;
+
+        var block = state.getBlock();
+        if (!BlockClassifier.isFurnace(block)) return;
+
+        FurnaceSlotOwners.get(sw).setAll(pos, sp.getUuid());
+    }
+
+    private static void onBlockBroken(
+        World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity entity
+    ) {
+        if (!(world instanceof ServerWorld sw)) return;
+
+        var block = state.getBlock();
+        if (!BlockClassifier.isFurnace(block)) return;
+        
+        McRPG.getLogger().debug("Removing furnace at {} from smelt automation tracking", pos);
+        FurnaceSlotOwners.get(sw).remove(pos);
     }
 
     private static void onFuelConsumed(AbstractFurnaceBlockEntityProxy proxy, ItemStack fuel) {

@@ -4,11 +4,19 @@
   "package": "com.github.beemerwt.events.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AbstractFurnaceBlockEntityMixin",
+    "AbstractFurnaceScreenHandlerMixin",
+    "BlockOnPlacedMixin",
+    "CropBlockMixin",
+    "PlayerInventoryMixin",
+    "ScreenHandlerMixin",
+    "ServerPlayerInteractionManagerMixin",
+    "access.CropBlockInvoker",
+    "access.DamageTrackerAccessor"
   ],
+  "client": [],
+  "server": [],
   "injectors": {
     "defaultRequire": 1
-  },
-  "overwrites": {
-    "requireAnnotations": true
   }
 }

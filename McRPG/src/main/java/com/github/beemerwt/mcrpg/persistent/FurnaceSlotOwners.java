@@ -43,24 +43,9 @@ public class FurnaceSlotOwners extends PersistentState {
 
     private static final String KEY = "mcrpg_furnace_slot_owners";
 
-    private static final class Entry {
-        private final BlockPos pos;
-        private final UUID inputOwner;
-        private final UUID fuelOwner;
-
-        public Entry(BlockPos pos, UUID inputOwner, UUID fuelOwner) {
-            this.pos = pos;
-            this.inputOwner = inputOwner;
-            this.fuelOwner = fuelOwner;
-        }
-
-        public Optional<String> getInputOwner() {
-            return Optional.ofNullable(inputOwner).map(UUID::toString);
-        }
-
-        public Optional<String> getFuelOwner() {
-            return Optional.ofNullable(fuelOwner).map(UUID::toString);
-        }
+    private record Entry(BlockPos pos, UUID inputOwner, UUID fuelOwner) {
+        public Optional<String> getInputOwner() { return Optional.ofNullable(inputOwner).map(UUID::toString); }
+        public Optional<String> getFuelOwner() { return Optional.ofNullable(fuelOwner).map(UUID::toString); }
     }
 
     private static final Codec<Entry> ENTRY_CODEC = RecordCodecBuilder.create(inst -> inst.group(

@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Wrench" pattern="[FabricMods.wrench*]:*..*||file[FabricMods.wrench*]:gradle//*||file[FabricMods.wrench*]:build.gradle||file[FabricMods.wrench*]:gradle.properties" />
+</component>

@@ -1,7 +1,7 @@
 package com.github.beemerwt.mcrpg.skills;
 
+import com.github.beemerwt.events.PlayerEvents;
 import com.github.beemerwt.mcrpg.McRPG;
-import com.github.beemerwt.mcrpg.callback.PlayerEvents;
 import com.github.beemerwt.mcrpg.config.skills.SwordsConfig;
 import com.github.beemerwt.mcrpg.data.SkillType;
 import com.github.beemerwt.mcrpg.managers.ConfigManager;

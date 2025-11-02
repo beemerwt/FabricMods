@@ -4,7 +4,7 @@ plugins {
 }
 
 allprojects {
-    group = "com.github.beemerwt.resourcelib"     // or com.github.beemerwt.resourcelib if you insist
+    group = "com.github.beemerwt.resourcelib"
     version = mod_version
 
     repositories {

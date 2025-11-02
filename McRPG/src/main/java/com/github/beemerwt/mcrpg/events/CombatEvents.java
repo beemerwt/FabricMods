@@ -3,7 +3,7 @@ package com.github.beemerwt.mcrpg.events;
 import com.github.beemerwt.mcrpg.McRPG;
 import com.github.beemerwt.mcrpg.managers.ConfigManager;
 import com.github.beemerwt.mcrpg.config.GeneralConfig;
-import com.github.beemerwt.mcrpg.mixin.access.DamageTrackerAccessor;
+import com.github.beemerwt.events.mixin.access.DamageTrackerAccessor;
 import com.github.beemerwt.mcrpg.data.SkillType;
 import com.github.beemerwt.mcrpg.util.ItemClassifier;
 import com.github.beemerwt.mcrpg.data.Leveling;
@@ -12,7 +12,6 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -133,6 +132,7 @@ public final class CombatEvents {
         // Otherwise, melee classification
         return classifyMelee(sp.getMainHandStack());
 
+        // TODO: Implement
         /*
         if (src instanceof PersistentProjectileEntity proj) {
             // If the projectile was shot by this player, count as ARCHERY

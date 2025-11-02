@@ -39,26 +39,33 @@ subprojects {
     }
 
     plugins.withId('fabric-loom') {
+        // Capture values NOW, as plain strings (cache-safe)
+        def _version            = "${project.version}"
+        def _mcVersion          = "${project.minecraft_version}"
+        def _loaderVersion      = "${project.loader_version}"
+        def _fabricVersion      = "${project.fabric_version}"
+
         dependencies {
-            minecraft "com.mojang:minecraft:${project.minecraft_version}"
+            minecraft "com.mojang:minecraft:${_mcVersion}"
             mappings  "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-            modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-            modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+            modImplementation "net.fabricmc:fabric-loader:${_loaderVersion}"
+            modImplementation "net.fabricmc.fabric-api:fabric-api:${_fabricVersion}"
         }
 
         processResources {
-            inputs.property 'version', project.version
-            inputs.property 'minecraft_version', project.minecraft_version
-            inputs.property 'loader_version', project.loader_version
-            inputs.property 'fabric_version', project.fabric_version
+            // use the captured strings; don't read from `project` in the closure
+            inputs.property 'version',            _version
+            inputs.property 'minecraft_version',  _mcVersion
+            inputs.property 'loader_version',     _loaderVersion
+            inputs.property 'fabric_version',     _fabricVersion
             filteringCharset 'UTF-8'
 
             filesMatching('fabric.mod.json') {
                 expand(
-                        version: project.version,
-                        minecraft_version: project.minecraft_version,
-                        loader_version: project.loader_version,
-                        fabric_version: project.fabric_version
+                    version:           _version,
+                    minecraft_version: _mcVersion,
+                    loader_version:    _loaderVersion,
+                    fabric_version:    _fabricVersion
                 )
             }
         }

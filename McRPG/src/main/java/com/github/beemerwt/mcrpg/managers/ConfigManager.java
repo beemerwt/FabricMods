@@ -91,24 +91,6 @@ public final class ConfigManager {
         FabricLogger.setGlobalDebug(GENERAL.debug);
         McRPG.getLogger().info("Debug logging is {}", GENERAL.debug ? "ENABLED" : "disabled");
         McRPG.getLogger().info("Loaded {} skill configs", BY_SKILL.size());
-
-        // Test for excavation blocks
-        ExcavationConfig excavationConfig = getSkillConfig(SkillType.EXCAVATION);
-        for (var entry : excavationConfig.getBlocks().keySet()) {
-            McRPG.getLogger().debug("Excavation block: {}", entry);
-        }
-
-        for (var entry : excavationConfig.treasures.keySet()) {
-            McRPG.getLogger().debug("Excavation treasure: {}", entry);
-
-            var value = excavationConfig.treasures.get(entry);
-            if (value == null) {
-                McRPG.getLogger().debug("  <null> config");
-                continue;
-            }
-
-            McRPG.getLogger().debug("  dropsFrom: {}", value.dropsFrom);
-        }
     }
 
     public static void reloadAll() {
@@ -140,6 +122,12 @@ public final class ConfigManager {
                 .filter(Objects::nonNull) // in case a load failed and put(null) happened
                 .filter(cfg -> cfg instanceof IHasBlocks hb && hb.hasBlock(blockId))
                 .findFirst();
+    }
+
+    public static boolean isConfiguredBlock(String blockId) {
+        return BY_SKILL.values().stream()
+                .filter(Objects::nonNull) // in case a load failed and put(null) happened
+                .anyMatch(cfg -> cfg instanceof IHasBlocks hb && hb.hasBlock(blockId));
     }
 
     public static void rebuildAbilityIndex() {

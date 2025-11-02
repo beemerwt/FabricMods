@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="SpawnerTweaks" pattern="[FabricMods.spawnertweaks*]:*..*||file[FabricMods.spawnertweaks*]:gradle//*||file[FabricMods.spawnertweaks*]:build.gradle||file[FabricMods.spawnertweaks*]:gradle.properties" />
+</component>

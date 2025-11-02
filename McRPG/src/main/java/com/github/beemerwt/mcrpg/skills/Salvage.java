@@ -1,7 +1,7 @@
 package com.github.beemerwt.mcrpg.skills;
 
+import com.github.beemerwt.events.PlayerEvents;
 import com.github.beemerwt.mcrpg.McRPG;
-import com.github.beemerwt.mcrpg.callback.PlayerEvents;
 import com.github.beemerwt.mcrpg.config.skills.SalvageConfig;
 import com.github.beemerwt.mcrpg.data.SkillType;
 import com.github.beemerwt.mcrpg.managers.ConfigManager;
@@ -11,7 +11,9 @@ import com.github.beemerwt.mcrpg.util.BlockClassifier;
 import com.github.beemerwt.mcrpg.data.Leveling;
 import com.github.beemerwt.mcrpg.util.Messenger;
 import com.github.beemerwt.mcrpg.util.SoundUtil;
+import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -24,6 +26,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -40,7 +45,22 @@ public final class Salvage {
     private record Pending(int slot, ItemStack snapshot, long expiresAtTick) {}
 
     public static void register() {
+        PlayerEvents.BLOCK_PLACED.register(Salvage::onBlockPlaced);
         PlayerEvents.INTERACT_ITEM.register(Salvage::onItemInteract);
+    }
+
+    private static void onBlockPlaced(
+        World world, @Nullable LivingEntity placer, BlockPos pos, BlockState state, ItemStack stack
+    ) {
+        if (!(world instanceof ServerWorld sw)) return;
+        if (!(placer instanceof ServerPlayerEntity sp)) return;
+
+        var block = state.getBlock();
+        if (!BlockClassifier.isGoldBlock(block)) return;
+
+        SoundUtil.playSound(sp, SoundEvents.BLOCK_ANVIL_PLACE, 1.0f, 0.3f);
+        Messenger.actionBar(sp, Component.text("You have placed a salvage anvil. Use it to salvage tools and armor.",
+            NamedTextColor.GREEN));
     }
 
     private static ActionResult onItemInteract(ServerPlayerEntity player, ItemStack itemStack, Hand hand) {
