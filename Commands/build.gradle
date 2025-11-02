@@ -1,0 +1,44 @@
+plugins {
+    id 'fabric-loom'
+    id 'java'
+    id 'maven-publish'
+}
+
+group = 'com.github.beemerwt'
+version = project.mod_version
+
+base {
+    archivesName = 'commands'
+}
+
+loom {
+    splitEnvironmentSourceSets()
+
+    mods {
+        "commands" {
+            sourceSet sourceSets.main
+        }
+    }
+
+    mixin {
+        defaultRefmapName = "commands.refmap.json"
+    }
+}
+
+// configure the maven publication
+publishing {
+    publications {
+        create("mavenJava", MavenPublication) {
+            artifactId = base.archivesName.get()
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
+        // Notice: This block does NOT have the same function as the block in the top level.
+        // The repositories here will be used for publishing your artifact, not for
+        // retrieving dependencies.
+    }
+}
