@@ -1,10 +1,12 @@
 {
   "required": true,
   "package": "com.github.beemerwt.spawnertweaks.mixin",
+  "refmap": "spawnertweaks.refmap.json",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "MobSpawnerLogicMixin",
-    "MobSpawnerLogic_SpawnEntryAccessor"
+    "BlockEntity_ReadWriteMixin",
+    "MobSpawnerBlockEntityMixin"
   ],
-  "injectors": { "defaultRequire": 1 }
+  "injectors": {
+    "defaultRequire": 1 }
 }

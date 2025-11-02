@@ -1,13 +1,11 @@
 package com.github.beemerwt.essence.mixin;
 
-import com.github.beemerwt.essence.Essence;
-import com.github.beemerwt.essence.data.LocationType;
-import com.github.beemerwt.essence.util.Locations;
+import com.github.beemerwt.essence.core.Essence;
+import com.github.beemerwt.essence.core.data.LocationType;
+import com.github.beemerwt.essence.core.util.Locations;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.WorldProperties;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

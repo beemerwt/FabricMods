@@ -1,13 +1,9 @@
 package com.github.beemerwt.spawnertweaks.mixin;
 
+import com.github.beemerwt.spawnertweaks.duck.SpawnerIdHolder;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.UUID;
 

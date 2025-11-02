@@ -1,3 +1,5 @@
+import net.fabricmc.loom.task.GenerateSourcesTask
+
 plugins {
     id 'base'
     id 'fabric-loom' version '1.11-SNAPSHOT' apply false

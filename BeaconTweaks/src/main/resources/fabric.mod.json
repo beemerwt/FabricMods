@@ -7,9 +7,10 @@
   "entrypoints": {
     "main": [ "com.github.beemerwt.beacontweaks.BeaconTweaks" ]
   },
-  "mixins": [
-    "beacontweaks.mixins.json"
-  ],
+  "mixins": [ {
+    "config": "beacontweaks.mixins.json",
+    "environment": "server"
+  } ],
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",

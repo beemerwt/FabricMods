@@ -276,7 +276,7 @@ public final class Leveling {
     public static float getScaledPercentage(float a, float b, int level) {
         a = a / 100.0f;
         b = b / 100.0f;
-        float scale = (float) level / (float) ConfigManager.getGeneralConfig().maxLevel;
+        float scale = Math.clamp((float) level / (float) ConfigManager.getGeneralConfig().maxLevel, 0.0f, 1.0f);
         return lerp(a, b, scale);
     }
 

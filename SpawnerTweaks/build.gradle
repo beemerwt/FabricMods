@@ -8,3 +8,9 @@ version = project.mod_version
 dependencies {
     implementation("it.unimi.dsi:fastutil:8.5.13")
 }
+
+loom {
+    mixin {
+        defaultRefmapName = "spawnertweaks.refmap.json"
+    }
+}

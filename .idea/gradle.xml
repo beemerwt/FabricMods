@@ -10,10 +10,12 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/beacontweaks" />
+            <option value="$PROJECT_DIR$/commands" />
             <option value="$PROJECT_DIR$/essence" />
             <option value="$PROJECT_DIR$/events" />
             <option value="$PROJECT_DIR$/fakeplayer" />
             <option value="$PROJECT_DIR$/mcrpg" />
+            <option value="$PROJECT_DIR$/quieter" />
             <option value="$PROJECT_DIR$/resourcelib" />
             <option value="$PROJECT_DIR$/resourcelib/API" />
             <option value="$PROJECT_DIR$/resourcelib/Mod" />

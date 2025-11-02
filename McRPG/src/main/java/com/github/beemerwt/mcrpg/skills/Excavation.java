@@ -48,7 +48,7 @@ public class Excavation {
         if (awarded <= 0) return;
 
         McRPG.getLogger().debug("{} Excavation XP awarded to {} for block broken {}",
-                awarded, player.getName(), block);
+                awarded, player.getStringifiedName(), block.getName());
         Leveling.addXp(player, SkillType.EXCAVATION, awarded);
     }
 }

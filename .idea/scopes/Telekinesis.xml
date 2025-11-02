@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Telekinesis" pattern="[FabricMods.telekinesis*]:*..*||file[FabricMods.telekinesis*]:gradle//*||file[FabricMods.telekinesis*]:build.gradle||file[FabricMods.telekinesis*]:gradle.properties" />
+</component>

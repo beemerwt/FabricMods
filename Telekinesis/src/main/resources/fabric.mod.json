@@ -8,7 +8,10 @@
     "main": [ "com.github.beemerwt.telekinesis.Telekinesis" ]
   },
   "mixins": [
-    "telekinesis.mixins.json"
+    {
+      "config": "telekinesis.mixins.json",
+      "environment": "server"
+    }
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",

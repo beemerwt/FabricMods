@@ -88,7 +88,9 @@ public final class Smelting {
             return;
         }
 
-        McRPG.getLogger().debug("Player {} smelted item {} from {}", ownerId, output, input);
+        var ownerData = McRPG.getStore().get(ownerId);
+        var name = ownerData.getName() != null ? ownerData.getName() : ownerId.toString();
+        McRPG.getLogger().debug("Player {} smelted item {} from {}", name, output, input);
 
         SmeltingConfig cfg = ConfigManager.getSkillConfig(SkillType.SMELTING);
 

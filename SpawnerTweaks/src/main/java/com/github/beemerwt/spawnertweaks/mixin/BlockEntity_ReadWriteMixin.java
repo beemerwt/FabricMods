@@ -1,5 +1,6 @@
 package com.github.beemerwt.spawnertweaks.mixin;
 
+import com.github.beemerwt.spawnertweaks.duck.SpawnerIdHolder;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
 import net.minecraft.storage.ReadView;
@@ -20,7 +21,7 @@ public abstract class BlockEntity_ReadWriteMixin {
             at = @At("TAIL")
     )
     private void afterRead(ReadView view, CallbackInfo ci) {
-        Object self = this;
+        BlockEntity self = (BlockEntity) (Object) this;
         if (!(self instanceof MobSpawnerBlockEntity) || !(self instanceof SpawnerIdHolder holder)) return;
 
         String s = view.getString("spawnertweaks:spawner_id", "");
@@ -34,11 +35,11 @@ public abstract class BlockEntity_ReadWriteMixin {
     }
 
     @Inject(
-            method = "write(Lnet/minecraft/storage/WriteView;)V",
+            method = "writeData(Lnet/minecraft/storage/WriteView;)V",
             at = @At("TAIL")
     )
     private void afterWrite(WriteView view, CallbackInfo ci) {
-        Object self = this;
+        BlockEntity self = (BlockEntity) (Object) this;
         if (!(self instanceof MobSpawnerBlockEntity) || !(self instanceof SpawnerIdHolder holder)) return;
 
         UUID id = holder.getSpawnerId();

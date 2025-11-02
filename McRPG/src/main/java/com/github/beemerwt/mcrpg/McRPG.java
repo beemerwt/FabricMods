@@ -17,9 +17,18 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.MinecraftServer;
 
+// TODO: Shift+Right-Click on copper blocks with an axe needs to fallthrough
+// TODO: Survival only
+// TODO: Herbalism should reward xp for all the blocks that break when it's a column (e.g. bamboo, sugarcane, cactus)
+// TODO: Herbalism fix for blocks like shroomlight -- stop awarding xp when breaking player-placed
+// TODO: Announcements in server when player reaches milestone
+
 public class McRPG implements ModInitializer {
-    private static final FabricLogger LOG = FabricLogger.getLogger("mcMMO-Fabric");
-    public static FabricLogger getLogger() { return LOG; }
+    private static final FabricLogger LOG = FabricLogger.getLogger("McRPG");
+
+    public static FabricLogger getLogger() {
+        return LOG;
+    }
 
     private static MinecraftServer server;
     private static PlayerStore store;
@@ -28,6 +37,10 @@ public class McRPG implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        ServerLifecycleEvents.SERVER_STARTING.register(s -> {
+            server = s;
+        });
+
         ServerLifecycleEvents.SERVER_STARTED.register(s -> {
             LOG.debug("Server started {}", s.getVersion());
             server = s;
@@ -45,8 +58,8 @@ public class McRPG implements ModInitializer {
         CombatEvents.register();
 
         CommandRegistrationCallback.EVENT.register((d, access, regEnv) -> {
-                SkillCommand.register(d);
-                AdminCommand.register(d);
+            SkillCommand.register(d);
+            AdminCommand.register(d);
         });
 
         XpBossbarManager.init();
@@ -91,6 +104,11 @@ public class McRPG implements ModInitializer {
         LOG.info("Initialized");
     }
 
-    public static PlayerStore getStore() { return store; }
-    public static MinecraftServer getServer() { return server; }
+    public static PlayerStore getStore() {
+        return store;
+    }
+
+    public static MinecraftServer getServer() {
+        return server;
+    }
 }

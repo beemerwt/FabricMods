@@ -4,3 +4,9 @@ plugins {
 }
 
 version = project.mod_version
+
+loom {
+    mixin {
+        defaultRefmapName = "beacontweaks.refmap.json"
+    }
+}

@@ -1,6 +1,7 @@
 {
   "required": true,
   "package": "com.github.beemerwt.mcrpg.mixin",
+  "refmap": "mcrpg.refmap.json",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BlockOnPlacedMixin",

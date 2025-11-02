@@ -30,26 +30,25 @@ public final class BlockEvents {
     private BlockEvents() {}
 
     public static void register() {
-        PlayerBlockBreakEvents.BEFORE.register((world, player, pos, state, entity) -> {
-            if (world.isClient()) return true;
-            if (!(world instanceof ServerWorld sw)) return true;
-            if (!(player instanceof ServerPlayerEntity sp)) return true;
-
-            McRPG.getLogger().debug("Processing block break event at {} by player {}", pos, player.getName().getString());
+        // We use BEFORE because the block state is still present, allowing us to query it
+        PlayerBlockBreakEvents.AFTER.register((world, player, pos, state, entity) -> {
+            if (!(world instanceof ServerWorld sw)) return;
+            if (!(player instanceof ServerPlayerEntity sp)) return;
 
             var block = state.getBlock();
             var blockName = Registries.BLOCK.getId(block).toString();
+            McRPG.getLogger().debug("Handling AFTER block break event at {} by player {}", pos, player.getName().getString());
 
             if (BlockClassifier.isFurnace(block)) {
                 McRPG.getLogger().debug("Removing furnace at {} from smelt automation tracking", pos);
                 FurnaceSlotOwners.get(sw).remove(pos);
-                return true;
+                return;
             }
 
             var skillCfg = ConfigManager.whichSkillHasBlock(blockName).orElse(null);
             if (skillCfg == null) {
                 McRPG.getLogger().debug("No skill associated with block " + blockName);
-                return true;
+                return;
             }
 
             ItemStack tool = player.getMainHandStack();
@@ -61,14 +60,14 @@ public final class BlockEvents {
                 marker.unmark(sw, pos);
                 McRPG.getLogger().debug("Removing marked crop {}", blockName);
                 Herbalism.onCropBroken(sp, sw, pos, state, drops);
-                return true;
+                return;
             }
 
             var tracker = PlacedBlockTracker.get(sw);
             if (tracker.isMarked(pos)) {
                 tracker.unmark(sw, pos);
                 McRPG.getLogger().debug("Skipping block {} because it was player-placed", blockName);
-                return true;
+                return;
             }
 
             switch (skillCfg.getSkillType()) {
@@ -77,8 +76,6 @@ public final class BlockEvents {
                 case EXCAVATION -> Excavation.onBlockDug(sp, sw, pos, state, drops);
                 case HERBALISM -> Herbalism.onCropBroken(sp, sw, pos, state, drops);
             }
-
-            return true;
         });
     }
 }

@@ -1,24 +1,22 @@
 package com.github.beemerwt.wrench;
 
 import com.mojang.brigadier.CommandDispatcher;
-import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
-import static net.minecraft.server.command.CommandManager.literal;
+import static com.github.beemerwt.essence.core.command.LiteralShim.literal;
 
 public class WrenchCommands {
 
     public static void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher)
     {
-        dispatcher.register(literal("wrench")
+        dispatcher.register(literal("essence", "wrench")
             .requires(src -> src.hasPermissionLevel(2) || hasPerm(src, "wrench.admin"))
-            .then(literal("give")
+            .then(literal("essence", "give")
                 .executes(ctx -> {
                     var src = ctx.getSource();
                     var p = src.getPlayer();
@@ -30,9 +28,9 @@ public class WrenchCommands {
             )
         );
 
-        dispatcher.register(literal("wrench")
+        dispatcher.register(literal("essence", "wrench")
             .requires(src -> src.hasPermissionLevel(2))
-            .then(literal("reload").executes(ctx -> {
+            .then(literal("essence", "reload").executes(ctx -> {
                 Wrench.CONFIG = WrenchConfig.load();
                 ctx.getSource().sendFeedback(() -> Text.literal("[Wrench] Config reloaded."), false);
                 return 1;

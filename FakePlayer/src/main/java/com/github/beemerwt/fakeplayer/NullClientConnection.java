@@ -4,10 +4,12 @@ import io.netty.channel.embedded.EmbeddedChannel;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import net.minecraft.network.ClientConnection;
+import net.minecraft.network.DisconnectionInfo;
 import net.minecraft.network.NetworkSide;
 import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
@@ -16,6 +18,7 @@ import java.net.SocketAddress;
 public final class NullClientConnection extends ClientConnection {
     private volatile boolean open = true;
     private final SocketAddress addr = new InetSocketAddress("0.0.0.0", 0);
+    private PacketListener listener;
 
     public NullClientConnection() {
         super(NetworkSide.SERVERBOUND);
@@ -46,6 +49,12 @@ public final class NullClientConnection extends ClientConnection {
     @Override
     public void setInitialPacketListener(PacketListener listener) {
         // bypass vanilla's validation; do not call super
+        this.listener = listener;
+    }
+
+    @Override
+    public @Nullable PacketListener getPacketListener() {
+        return listener;
     }
 
     // New "master" send signature on 1.21.x
@@ -67,10 +76,18 @@ public final class NullClientConnection extends ClientConnection {
     public boolean isOpen() { return open; }
 
     @Override
-    public void disconnect(Text reason) { open = false; }
+    public void disconnect(Text reason) {
+        if (!open) return;
+        open = false;
+        if (listener != null) {
+            listener.onDisconnected(new DisconnectionInfo(reason));
+        }
+    }
 
     @Override
-    public void handleDisconnection() { open = false; }
+    public void handleDisconnection() {
+        disconnect(Text.literal("Disconnected"));
+    }
 
     @Override
     public SocketAddress getAddress() { return addr; }

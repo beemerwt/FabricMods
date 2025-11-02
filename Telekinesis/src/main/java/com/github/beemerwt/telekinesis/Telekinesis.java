@@ -4,6 +4,9 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Tameable;
 import net.minecraft.entity.TntEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -12,17 +15,18 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
+
+// TODO: Check offhand slot to stack into as well
+
 public final class Telekinesis implements ModInitializer {
     private static final boolean SNEAK_DISABLES = false;
-    private static final int LIFETIME_TICKS = 4;
-    private static final double ZONE_RADIUS = 2.25;
-
-    private static final ThreadLocal<Deque<AutoScope>> PENDING_POP =
-            ThreadLocal.withInitial(ArrayDeque::new);
 
     @Override
     public void onInitialize() {
@@ -33,44 +37,30 @@ public final class Telekinesis implements ModInitializer {
             if (killer == null || !shouldApplyTo(killer)) return;
 
             // Small, short-lived zone at the death spot.
-            final double zoneRadius = 2.25;
-            final int lifetimeTicks = 10;     // covers staggered loot spawns
-            BreakZones.add(killer.getUuid(), living.getEntityPos(), zoneRadius, world.getTime(), lifetimeTicks);
+            BreakZones.addMobKillZone(killer, world, living.getEntityPos());
         });
 
-        // On block break, add a zone at the broken block position
-        PlayerBlockBreakEvents.AFTER.register((world, player, pos, state, blockEntity) -> {
-            if (player == null || player.isSpectator() || player.isRemoved()) return;
-            if (world.isClient()) return;
+        PlayerBlockBreakEvents.BEFORE.register((world, player, pos, state, entity) -> {
+            if (!(world instanceof ServerWorld sw)) return true;
+            if (!(player instanceof ServerPlayerEntity sp)) return true;
+            BreakZones.onBefore(sw, sp, pos); // your existing session start
+            return true; // allow breaking
+        });
 
-            // Short-lived zone right where the break happened
-            BreakZones.add(player.getUuid(), Vec3d.ofCenter(pos), ZONE_RADIUS, world.getTime(), LIFETIME_TICKS);
+        PlayerBlockBreakEvents.AFTER.register((world, player, pos, state, be) -> {
+            if (!(player instanceof ServerPlayerEntity sp)) return;
 
-            // Connected stacks: add vertical column of zones for a bounded range
-            // Pick conservative ranges to avoid scanning forever on huge/modded stacks
-            final int upMax = 64;   // tune to your liking
-            final int downMax = 0;  // most stacks are above the base
-            if (isColumnStack(state.getBlock().getTranslationKey())) {
-                BreakZones.addColumnZones((ServerWorld)world, player.getUuid(), pos, upMax, downMax, LIFETIME_TICKS, 2.25);
-            }
+            // Commit same-tick buffered items/xp
+            BreakZones.onAfter(sp);
+        });
+
+        // If the break gets cancelled
+        PlayerBlockBreakEvents.CANCELED.register((world, player, pos, state, entity) -> {
+            if (player instanceof ServerPlayerEntity sp) BreakZones.onCancel(sp);
         });
 
         // purge zones every tick
-        ServerTickEvents.END_SERVER_TICK.register(server ->
-                server.getWorlds().forEach(w -> BreakZones.purgeExpired(w.getTime()))
-        );
-    }
-
-    private static boolean isColumnStack(String translationKey) {
-        // Cheap string checks to avoid hard deps; tune as needed
-        // (You can switch this to instanceof checks on Blocks.* if you’d rather)
-        return translationKey.contains("bamboo")
-                || translationKey.contains("scaffolding")
-                || translationKey.contains("sugar_cane")
-                || translationKey.contains("cactus")
-                || translationKey.contains("kelp")
-                || translationKey.contains("twisting_vines")
-                || translationKey.contains("weeping_vines");
+        ServerTickEvents.END_SERVER_TICK.register(server -> BreakZones.endOfTickCleanup());
     }
 
     private static boolean shouldApplyTo(ServerPlayerEntity p) {
@@ -99,10 +89,5 @@ public final class Telekinesis implements ModInitializer {
         }
 
         return null;
-    }
-
-
-    private record AutoScope(TeleContext scope) implements AutoCloseable {
-        @Override public void close() { if (scope != null) scope.close(); }
     }
 }

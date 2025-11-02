@@ -4,3 +4,9 @@ plugins {
 }
 
 version = mod_version
+
+loom {
+    mixin {
+        defaultRefmapName = "fakeplayer-refmap.json"
+    }
+}
