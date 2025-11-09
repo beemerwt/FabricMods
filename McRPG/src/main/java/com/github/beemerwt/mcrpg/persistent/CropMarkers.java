@@ -66,27 +66,21 @@ public final class CropMarkers extends PersistentState {
         return getMultiplier(pos) > 1.0;
     }
 
-    public void mark(ServerWorld world, BlockPos pos, float multiplier) {
+    public void mark(BlockPos pos, float multiplier) {
         float clamped = clampMultiplier(multiplier);
         if (clamped <= 1.0f) {
-            unmark(world, pos);
+            unmark(pos);
             return;
         }
         posToMultiplier.put(pos.asLong(), clamped);
         markDirty();
     }
 
-    public void unmark(ServerWorld world, BlockPos pos) {
+    public void unmark(BlockPos pos) {
         long k = pos.asLong();
         if (posToMultiplier.containsKey(k)) {
             posToMultiplier.remove(k);
             markDirty();
-        }
-    }
-
-    public void maybeCleanupIfAir(ServerWorld world, BlockPos pos) {
-        if (world.isAir(pos)) {
-            unmark(world, pos);
         }
     }
 

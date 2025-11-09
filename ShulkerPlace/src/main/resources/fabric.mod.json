@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "shulkerplace",
+  "version": "${version}",
+  "name": "Shulker Place",
+  "description": "Place blocks directly from shulker boxes.",
+  "authors": [ "BeemerWT" ],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.github.beemerwt.shulkerplace.core.ShulkerPlace"
+    ]
+  },
+  "mixins": [ "shulkerplace.mixins.json", "litematica.bridge.mixins.json" ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  },
+  "suggests": {
+    "litematica": ">=0.24.3"
+  }
+}

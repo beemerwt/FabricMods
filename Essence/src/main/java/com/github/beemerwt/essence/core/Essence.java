@@ -7,6 +7,7 @@ import com.github.beemerwt.essence.core.data.*;
 import com.github.beemerwt.essence.core.payload.NoclipCapC2SPayload;
 import com.github.beemerwt.essence.core.payload.NoclipSyncS2CPayload;
 import com.github.beemerwt.essence.core.permission.Permissions;
+import com.github.beemerwt.essence.core.util.HighlightEntity;
 import com.github.beemerwt.essence.core.util.Locations;
 import com.github.beemerwt.essence.core.util.Teleporter;
 import com.github.beemerwt.util.FabricLogger;
@@ -26,8 +27,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
 
-// TODO: If the tp command should give /back to the player being teleported
-
+// TODO: Commands mods
+// TODO: Count command to count types of mobs
+// TODO: World command to change worlds at the exact coordinate you are standing (helps with portal placement)
 
 public final class Essence implements ModInitializer {
     public static final String MOD_ID = "essence";
@@ -54,6 +56,7 @@ public final class Essence implements ModInitializer {
     public void onInitialize() {
         LOG.info("Essence initializing...");
         // PlayerEvents.register();
+        HighlightEntity.register();
 
         // Register commands
         CommandRegistrationCallback.EVENT.register((dispatcher, regAccess, env) -> {
@@ -63,6 +66,7 @@ public final class Essence implements ModInitializer {
             WarpCommands.register(dispatcher);
             TpaCommands.register(dispatcher);
             EnchantCommand.register(dispatcher);
+            WorldCommand.register(dispatcher);
 
             // Management
             JailCommands.register(dispatcher);
@@ -79,7 +83,10 @@ public final class Essence implements ModInitializer {
             FindItemCommand.register(dispatcher, regAccess);
             InvSeeCommand.register(dispatcher);
 
+            CountCommand.register(dispatcher);
+
             NoclipCommand.register(dispatcher);
+            HighlightCommand.register(dispatcher);
         });
 
         ServerPlayConnectionEvents.INIT.register((handler, server) -> {

@@ -6,7 +6,7 @@ plugins {
 }
 
 allprojects {
-    group = 'com.github.beemerwt'
+    group = project.maven_group
 
     repositories {
         mavenCentral()
@@ -16,6 +16,8 @@ allprojects {
 }
 
 subprojects {
+    version = findProperty("mod_version")
+
     plugins.withId('java') {
         java {
             toolchain {
@@ -39,11 +41,11 @@ subprojects {
     }
 
     plugins.withId('fabric-loom') {
-        // Capture values NOW, as plain strings (cache-safe)
-        def _version            = "${project.version}"
-        def _mcVersion          = "${project.minecraft_version}"
-        def _loaderVersion      = "${project.loader_version}"
-        def _fabricVersion      = "${project.fabric_version}"
+        // Materialize to plain strings at configuration time (no closures!)
+        final String _version       = project.version.toString()
+        final String _mcVersion     = project.findProperty('minecraft_version') as String
+        final String _loaderVersion = project.findProperty('loader_version') as String
+        final String _fabricVersion = project.findProperty('fabric_version') as String
 
         dependencies {
             minecraft "com.mojang:minecraft:${_mcVersion}"
@@ -52,15 +54,18 @@ subprojects {
             modImplementation "net.fabricmc.fabric-api:fabric-api:${_fabricVersion}"
         }
 
-        processResources {
-            // use the captured strings; don't read from `project` in the closure
-            inputs.property 'version',            _version
-            inputs.property 'minecraft_version',  _mcVersion
-            inputs.property 'loader_version',     _loaderVersion
-            inputs.property 'fabric_version',     _fabricVersion
+        tasks.named('processResources', Copy) {
+            // Inputs are plain strings
+            inputs.properties(
+                version:            _version,
+                minecraft_version:  _mcVersion,
+                loader_version:     _loaderVersion,
+                fabric_version:     _fabricVersion
+            )
             filteringCharset 'UTF-8'
 
             filesMatching('fabric.mod.json') {
+                // expand with plain strings only
                 expand(
                     version:           _version,
                     minecraft_version: _mcVersion,
@@ -70,4 +75,5 @@ subprojects {
             }
         }
     }
+
 }

@@ -1,38 +1,38 @@
 package com.github.beemerwt.mcrpg.skills;
 
-import com.github.beemerwt.events.PlayerEvents;
 import com.github.beemerwt.mcrpg.McRPG;
 import com.github.beemerwt.mcrpg.config.skills.RepairConfig;
 import com.github.beemerwt.mcrpg.data.Leveling;
 import com.github.beemerwt.mcrpg.data.SkillType;
+import com.github.beemerwt.mcrpg.event.PlaceBlockEvent;
+import com.github.beemerwt.mcrpg.event.UseItemEvent;
 import com.github.beemerwt.mcrpg.managers.ConfigManager;
-import com.github.beemerwt.mcrpg.text.Component;
-import com.github.beemerwt.mcrpg.text.NamedTextColor;
 import com.github.beemerwt.mcrpg.util.*;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Math;
 
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class Repair {
+public final class Repair extends Skill<RepairConfig> {
 
-    private Repair() {}
+    public Repair() {
+        super(SkillType.REPAIR);
+        EventBus.subscribe(PlaceBlockEvent.class, this::onBlockPlaced);
+        EventBus.intercept(UseItemEvent.class, this::onItemInteract);
+    }
 
     private static final int CONFIRM_TICKS = 100; // ~5s
     private static final ConcurrentHashMap<UUID, Pending> PENDING = new ConcurrentHashMap<>();
@@ -40,32 +40,26 @@ public final class Repair {
 
     private record Pending(int slot, ItemStack snapshot, long expiresAtTick) {}
 
-    public static void register() {
-        PlayerEvents.INTERACT_ITEM.register(Repair::onItemInteract);
-        PlayerEvents.BLOCK_PLACED.register(Repair::onBlockPlaced);
-    }
-
-    private static void onBlockPlaced(
-        World world, @Nullable LivingEntity placer, BlockPos pos, BlockState state, ItemStack stack
-    ) {
-        if (!(placer instanceof ServerPlayerEntity sp)) return;
-
-        var block = state.getBlock();
+    private void onBlockPlaced(PlaceBlockEvent e) {
+        var sp = e.player();
+        var block = e.state().getBlock();
         if (!BlockClassifier.isIronBlock(block)) return;
 
-        McRPG.getLogger().debug("Player {} placed an anvil at {}", sp.getName().getString(), pos);
+        McRPG.getLogger().debug("Player {} placed an anvil at {}", sp.getName().getString(), e.pos());
 
         // These blocks are used in custom crafting recipes and should not be tracked.
         SoundUtil.playSound(sp, SoundEvents.BLOCK_ANVIL_PLACE, 1.0f, 0.3f);
-        Messenger.actionBar(sp, Component.text("You have placed an anvil. Anvils can repair tools and armor.",
-            NamedTextColor.GREEN));
+        Messenger.actionBar(sp, Text.translatable("mcrpg.repair.notify_anvil").formatted(Formatting.GREEN));
     }
 
-    private static ActionResult onItemInteract(ServerPlayerEntity player, ItemStack itemStack, Hand hand) {
-        if (hand != Hand.MAIN_HAND) return ActionResult.PASS;
+    private ActionResult onItemInteract(UseItemEvent e) {
+        if (e.hand() != Hand.MAIN_HAND) return ActionResult.PASS;
+
+        var itemStack = e.player().getStackInHand(e.hand());
         if (!isRepairable(itemStack)) return ActionResult.PASS;
 
         // Check player is looking at an iron block within reach
+        var player = e.player();
         var range = player.getBlockInteractionRange();
         var raycastResult = player.raycast(range, 0.0f, false);
         if (!(raycastResult instanceof BlockHitResult blockHitResult)) {
@@ -109,23 +103,24 @@ public final class Repair {
 
         // Fallback: generate a sane default if not configured.
         if (rp == null) {
-            Messenger.actionBar(player, Component.text("This item cannot be repaired here.",
-                    NamedTextColor.RED));
+            Messenger.actionBar(player, Text.literal("This item cannot be repaired here.")
+                .formatted(Formatting.RED));
             return;
         }
 
         // Level gate
         int level = Leveling.getLevel(player, SkillType.REPAIR);
         if (level < rp.minimumLevel) {
-            Messenger.actionBar(player, Component.text("Requires Repair level " + rp.minimumLevel
-                    + " to repair.", NamedTextColor.RED));
+            Messenger.actionBar(player, Text.translatable("mcrpg.repair.under_level", rp.minimumLevel)
+                .formatted(Formatting.RED));
             return;
         }
 
         final int damage = stack.getDamage();
         final int maxDamage = stack.getMaxDamage();
         if (damage <= 0) {
-            Messenger.actionBar(player, Component.text("That item is already fully repaired.", NamedTextColor.GRAY));
+            Messenger.actionBar(player, Text.translatable("mcrpg.repair.already_repaired")
+                .formatted(Formatting.GRAY));
             return;
         }
 
@@ -136,7 +131,7 @@ public final class Repair {
         if (pending == null || pending.expiresAtTick() < now || pending.slot() != slot || !isSameItemForConfirm(stack, pending)) {
             // First tap: prompt confirm
             PENDING.put(player.getUuid(), new Pending(slot, stack.copy(), now + CONFIRM_TICKS));
-            Messenger.actionBar(player, Component.text("Use again to confirm repair", NamedTextColor.YELLOW));
+            Messenger.actionBar(player, Text.translatable("mcrpg.repair.notify_confirm").formatted(Formatting.YELLOW));
             SoundUtil.playSound(player, SoundEvents.BLOCK_ANVIL_STEP, 0.6f, 1.1f);
             return;
         }
@@ -145,7 +140,7 @@ public final class Repair {
         String category = inferCategory(itemId);
         Item repairItem = resolveRepairItem(rp, category);
         if (repairItem == null) {
-            Messenger.actionBar(player, Component.text("No repair material configured for this item.", NamedTextColor.RED));
+            Messenger.actionBar(player, Text.translatable("mcrpg.repair.not_repairable").formatted(Formatting.RED));
             return;
         }
 
@@ -154,8 +149,8 @@ public final class Repair {
 
         int available = InventoryUtil.countInInventory(player, repairItem);
         if (available < minQty) {
-            Messenger.actionBar(player, Component.text("Need " + minQty + "x " +
-                    displayName(repairItem) + " to repair.", NamedTextColor.RED));
+            Messenger.actionBar(player, Text.translatable("mcrpg.repair.need_materials", minQty, displayName(repairItem))
+                .formatted(Formatting.RED));
             return;
         }
 
@@ -178,7 +173,7 @@ public final class Repair {
 
         int applied = Math.min(damage, Math.round(restore));
         if (applied <= 0) {
-            Messenger.actionBar(player, Component.text("Could not repair that item.", NamedTextColor.RED));
+            Messenger.actionBar(player, Text.translatable("mcrpg.repair.failed").formatted(Formatting.RED));
             return;
         }
 
@@ -195,8 +190,8 @@ public final class Repair {
         Leveling.addXp(player, SkillType.REPAIR, xp);
 
         // Feedback
-        String msg = "Repaired " + applied + " durability" + (superRepair ? " (Super Repair!)" : "") + " for +" + xp + " XP.";
-        Messenger.actionBar(player, Component.text(msg, superRepair ? NamedTextColor.GOLD : NamedTextColor.GREEN));
+        String msg = superRepair ? "mcrpg.repair.success" : "mcrpg.repair.super_success";
+        Messenger.actionBar(player, Text.translatable(msg).formatted(superRepair ? Formatting.GOLD : Formatting.GREEN));
         SoundUtil.playSound(player, SoundEvents.BLOCK_ANVIL_USE, 0.9f, superRepair ? 1.25f : 1.0f);
 
         // Clear pending

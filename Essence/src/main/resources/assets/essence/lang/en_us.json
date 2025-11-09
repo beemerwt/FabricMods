@@ -1,4 +1,10 @@
 {
   "key.category.essence.general": "Essence",
-  "key.essence.noclip_toggle": "Toggle Noclip"
+  "key.essence.noclip_toggle": "Toggle Noclip",
+
+  "essence.highlight.error.outline_failed": "Failed to create block outline.",
+  "essence.highlight.error.not_container": "That position isn't a container.",
+  "essence.highlight.double_chest_outline_created": "Highlighting double chest at %s",
+  "essence.highlight.outline_created": "Highlighting block at %s",
+  "essence.highlight.cleared": "Cleared all block highlights."
 }

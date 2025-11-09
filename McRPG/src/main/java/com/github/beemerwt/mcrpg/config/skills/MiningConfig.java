@@ -3,9 +3,7 @@ package com.github.beemerwt.mcrpg.config.skills;
 import com.github.beemerwt.mcrpg.annotation.JankComment;
 import com.github.beemerwt.mcrpg.annotation.JankKey;
 import com.github.beemerwt.mcrpg.annotation.JanksonObject;
-import com.github.beemerwt.mcrpg.config.AbilityConfig;
-import com.github.beemerwt.mcrpg.config.IHasBlocks;
-import com.github.beemerwt.mcrpg.config.SkillConfig;
+import com.github.beemerwt.mcrpg.config.*;
 import com.github.beemerwt.mcrpg.config.ability.BlastMiningConfig;
 import com.github.beemerwt.mcrpg.config.ability.DoubleDropsConfig;
 import com.github.beemerwt.mcrpg.config.ability.SuperBreakerConfig;
@@ -17,7 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @JanksonObject
-public class MiningConfig extends SkillConfig implements IHasBlocks {
+public class MiningConfig extends SkillConfig implements IBlockConfig, IDoubleDrops, IWhitelist, IBlacklist {
     @JankKey("Double Drops")
     public DoubleDropsConfig doubleDrops = new DoubleDropsConfig();
 
@@ -133,5 +131,20 @@ public class MiningConfig extends SkillConfig implements IHasBlocks {
     @Override
     public Map<String, Integer> getBlocks() {
         return blocks;
+    }
+
+    @Override
+    public DoubleDropsConfig getDoubleDrops() {
+        return doubleDrops;
+    }
+
+    @Override
+    public List<String> getBlacklist() {
+        return blacklist;
+    }
+
+    @Override
+    public List<String> getWhitelist() {
+        return whitelist;
     }
 }

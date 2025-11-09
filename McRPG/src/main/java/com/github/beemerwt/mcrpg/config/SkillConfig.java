@@ -7,7 +7,6 @@ import com.github.beemerwt.mcrpg.annotation.JankComment;
 import com.github.beemerwt.mcrpg.annotation.JankIgnore;
 import com.github.beemerwt.mcrpg.annotation.JanksonObject;
 import com.github.beemerwt.mcrpg.config.skills.*;
-import com.github.beemerwt.mcrpg.data.ActiveAbilityType;
 import com.github.beemerwt.mcrpg.data.SkillType;
 import com.github.beemerwt.mcrpg.managers.ConfigManager;
 import com.github.beemerwt.mcrpg.util.JanksonSerde;
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Optional;
 
 @JanksonObject
 public class SkillConfig extends Config {
@@ -37,14 +35,6 @@ public class SkillConfig extends Config {
 
     public SkillType getSkillType() {
         return skillType;
-    }
-
-    public boolean hasAbility(ActiveAbilityType activeAbilityType) {
-        return false;
-    }
-
-    public Optional<AbilityConfig> getAbilityConfig(ActiveAbilityType activeAbilityType) {
-        return Optional.empty();
     }
 
     public static SkillConfig createOrLoadConfig(SkillType skillType) {

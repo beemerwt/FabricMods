@@ -1,0 +1,11 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "com.github.beemerwt.shulkerplace.mixin",
+  "plugin": "com.github.beemerwt.shulkerplace.mixin.ShulkerPlaceMixinPlugin",
+  "refmap": "shulkerplace.refmap.json",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "litematica.InventoryUtils_LitematicaBridge"
+  ]
+}

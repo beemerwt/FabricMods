@@ -103,22 +103,28 @@ public final class FindItemCommand {
             var r = results.get(i);
             String label = r.containerType + " @ " + r.pos.getX() + " " + r.pos.getY() + " " + r.pos.getZ();
             String invSeeCmd = "/invsee " + r.pos.getX() + " " + r.pos.getY() + " " + r.pos.getZ();
+            String highlightCmd = "/highlight " + r.pos.getX() + " " + r.pos.getY() + " " + r.pos.getZ();
 
             MutableText line = Text.literal("• ")
                 .formatted(Formatting.DARK_GRAY)
-                .append(Text.literal(label).styled(style -> {
+                .append(Text.literal(label + "  ").styled(style -> {
                     if (Perms.INV_SEE.check(src))
                         style = style.withClickEvent(new ClickEvent.RunCommand(invSeeCmd));
                     return style.withColor(Formatting.AQUA);
                 }))
-                .append(Text.literal("  (" + r.manhattan(center) + " blocks away)").formatted(Formatting.DARK_GRAY));
+                .append(Text.literal("(" + r.manhattan(center) + " blocks away)").styled(style -> {
+                    if (Perms.HIGHLIGHT.check(src))
+                        style = style.withClickEvent(new ClickEvent.RunCommand(highlightCmd)).withUnderline(true);
+                    return style.withColor(Formatting.DARK_GRAY);
+                }));
 
             src.sendFeedback(() -> line, false);
         }
 
         if (results.size() > shown) {
             final int resultSize = results.size();
-            src.sendFeedback(() -> Text.literal("…and " + (resultSize - shown) + " more.").formatted(Formatting.GRAY), false);
+            src.sendFeedback(() -> Text.literal("…and " + (resultSize - shown) + " more.")
+                .formatted(Formatting.GRAY), false);
         }
 
         return 1;

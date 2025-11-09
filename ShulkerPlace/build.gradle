@@ -1,0 +1,38 @@
+plugins {
+    id 'fabric-loom'
+    id 'java'
+}
+
+group = project.maven_group
+version = project.mod_version
+
+base {
+    archivesName = 'shulkerplace'
+}
+
+repositories {
+    maven { url = 'https://api.modrinth.com/maven' }
+}
+
+dependencies {
+    // ---------- Optional Litematica bridge ----------
+    // Compile against, but do not require at runtime
+    modCompileOnly("maven.modrinth:litematica:${project.litematica_version}")
+    modCompileOnly("maven.modrinth:malilib:${project.malilib_version}")
+
+    // Make dev run include them so you can test the intercept
+    modLocalRuntime("maven.modrinth:litematica:${project.litematica_version}")
+    modLocalRuntime("maven.modrinth:malilib:${project.malilib_version}")
+}
+
+loom {
+    mods {
+        shulkerplace {
+            sourceSet sourceSets.main
+        }
+    }
+
+    mixin {
+        defaultRefmapName = "shulkerplace.refmap.json"
+    }
+}

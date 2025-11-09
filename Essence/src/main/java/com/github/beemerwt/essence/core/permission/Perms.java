@@ -36,14 +36,17 @@ public final class Perms {
     public static final Perm DOWN       = Perm.of("essence.down",       OpLevel.SUPER_MOD);
     public static final Perm SPAWN      = Perm.of("essence.spawn",      OpLevel.NONE);
     public static final Perm SET_SPAWN  = Perm.of("essence.setspawn",   OpLevel.ADMIN);
-    public static final Perm NOCLIP     = Perm.of("essence.noclip",     OpLevel.ADMIN);
+    public static final Perm WORLD      = Perm.of("essence.world",      OpLevel.SUPER_MOD);
 
     // MISC
+    public static final Perm NOCLIP     = Perm.of("essence.noclip",     OpLevel.ADMIN);
     public static final Perm HEAL       = Perm.of("essence.heal",       OpLevel.MODERATOR);
     public static final Perm FEED       = Perm.of("essence.feed",       OpLevel.MODERATOR);
     public static final Perm FLY        = Perm.of("essence.fly",        OpLevel.ADMIN);
     public static final Perm ENCHANT    = Perm.of("essence.enchant",    OpLevel.SUPER_MOD);
     public static final Perm SUMMON     = Perm.of("essence.summon",     OpLevel.SUPER_MOD);
+    public static final Perm COUNT      = Perm.of("essence.count",      OpLevel.MODERATOR);
+    public static final Perm HIGHLIGHT  = Perm.of("essence.highlight",  OpLevel.SUPER_MOD);
 
     public static final Perm FIND_ITEM  = Perm.of("essence.finditem",   OpLevel.ADMIN);
     public static final Perm INV_SEE    = Perm.of("essence.invsee",     OpLevel.ADMIN);

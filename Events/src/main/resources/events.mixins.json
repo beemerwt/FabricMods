@@ -4,10 +4,10 @@
   "package": "com.github.beemerwt.events.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AbstractBlockStateMixin",
     "AbstractFurnaceBlockEntityMixin",
     "AbstractFurnaceScreenHandlerMixin",
     "BlockOnPlacedMixin",
-    "CropBlockMixin",
     "PlayerInventoryMixin",
     "ScreenHandlerMixin",
     "ServerPlayerInteractionManagerMixin",

@@ -39,6 +39,10 @@
 /ResourceLib/build/
 /ResourceLib/run/
 
+/ShulkerPlace/.gradle/
+/ShulkerPlace/build/
+/ShulkerPlace/run/
+
 /SpawnerTweaks/.gradle/
 /SpawnerTweaks/build/
 /SpawnerTweaks/run/

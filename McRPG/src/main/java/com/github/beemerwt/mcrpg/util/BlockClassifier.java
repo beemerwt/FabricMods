@@ -1,9 +1,10 @@
 package com.github.beemerwt.mcrpg.util;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
@@ -23,6 +24,51 @@ public class BlockClassifier {
     public static boolean isOre(Block block) {
         RegistryEntry<Block> entry = Registries.BLOCK.getEntry(block);
         return entry.isIn(ORES);
+    }
+
+    public static boolean isMinedByPickaxe(BlockState state) {
+        return state.isIn(BlockTags.PICKAXE_MINEABLE);
+    }
+
+    public static boolean isMinedByPickaxe(Block block) {
+        return isMinedByPickaxe(block.getDefaultState());
+    }
+
+    // --- AXE ---
+    public static boolean isMinedByAxe(BlockState state) {
+        return state.isIn(BlockTags.AXE_MINEABLE);
+    }
+
+    public static boolean isMinedByAxe(Block block) {
+        return isMinedByAxe(block.getDefaultState());
+    }
+
+    // --- SHOVEL ---
+    public static boolean isMinedByShovel(BlockState state) {
+        return state.isIn(BlockTags.SHOVEL_MINEABLE);
+    }
+
+    public static boolean isMinedByShovel(Block block) {
+        return isMinedByShovel(block.getDefaultState());
+    }
+
+    // --- HOE ---
+    public static boolean isMinedByHoe(BlockState state) {
+        return state.isIn(BlockTags.HOE_MINEABLE);
+    }
+
+    public static boolean isMinedByHoe(Block block) {
+        return isMinedByHoe(block.getDefaultState());
+    }
+
+    // --- SWORD ---
+    public static boolean isMinedBySword(BlockState state) {
+        // Not commonly used, but exists for cobwebs, bamboo, etc.
+        return state.isIn(BlockTags.SWORD_EFFICIENT);
+    }
+
+    public static boolean isMinedBySword(Block block) {
+        return isMinedBySword(block.getDefaultState());
     }
 
     public static boolean isLeaf(Block block) {

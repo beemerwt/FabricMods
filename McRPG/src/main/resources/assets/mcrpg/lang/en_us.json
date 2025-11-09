@@ -1,0 +1,48 @@
+{
+  "mcrpg.skill.acrobatics": "Acrobatics",
+  "mcrpg.skill.archery": "Archery",
+  "mcrpg.skill.axes": "Axes",
+  "mcrpg.skill.mining": "Mining",
+  "mcrpg.skill.excavation": "Excavation",
+  "mcrpg.skill.woodcutting": "Woodcutting",
+  "mcrpg.skill.herbalism": "Herbalism",
+  "mcrpg.skill.swords": "Swords",
+
+  "mcrpg.ability.double_drops": "Double Drops",
+  "mcrpg.ability.double_drops.description": "Grants a chance to double the drops from ores.",
+
+  "mcrpg.ability.treasure_finding": "Treasure Finding",
+  "mcrpg.ability.treasure_finding.description": "Grants a change to find treasures when digging.",
+
+  "mcrpg.ability.super_breaker": "Super Breaker",
+  "mcrpg.ability.super_breaker.description": "Breaks blocks instantly when mining.",
+
+  "mcrpg.ability.giga_drill_breaker": "Giga Drill Breaker",
+  "mcrpg.ability.giga_drill_breaker.description": "Breaks blocks instantly when digging.",
+
+  "mcrpg.ability.ready": "You raise your %s",
+  "mcrpg.ability.ready_expire": "You lower your %s",
+  "mcrpg.ability.activated": "%s activated!",
+  "mcrpg.ability.expired": "%s has expired",
+
+  "mcrpg.ability.green_terra": "Green Terra",
+
+  "mcrpg.tool.bow": "bow",
+  "mcrpg.tool.pickaxe": "pickaxe",
+  "mcrpg.tool.axe": "axe",
+  "mcrpg.tool.shovel": "shovel",
+  "mcrpg.tool.hoe": "hoe",
+  "mcrpg.tool.sword": "sword",
+  "mcrpg.tool.fist": "fist",
+
+  "mcrpg.repair.notify_anvil": "You have placed an anvil. Anvils can repair tools and armor.",
+  "mcrpg.repair.notify_confirm": "Use again to confirm repair",
+
+  "mcrpg.repair.under_level": "Requires Repair level %d to repair this item.",
+  "mcrpg.repair.already_repaired": "That item is already fully repaired.",
+  "mcrpg.repair.not_repairable": "That item cannot be repaired.",
+  "mcrpg.repair.need_materials": "You need %d %s to repair this item.",
+  "mcrpg.repair.failed": "Could not repair that item.",
+  "mcrpg.repair.success": "Repaired %d durability",
+  "mcrpg.repair.super_success": "SUPER REPAIR! Repaired %d durability"
+}

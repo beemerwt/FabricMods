@@ -41,5 +41,12 @@ public final class PlayerData {
         if (name.isEmpty()) return id.toString();
         return name;
     }
+
+    // Copy to handle in async saver
+    public PlayerData copy() {
+        var data = new PlayerData(id, name, xp);
+        data.dirty = this.dirty;
+        return data;
+    }
 }
 

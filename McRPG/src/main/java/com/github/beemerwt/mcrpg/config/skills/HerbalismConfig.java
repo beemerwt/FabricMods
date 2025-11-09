@@ -4,17 +4,16 @@ import com.github.beemerwt.mcrpg.annotation.JankComment;
 import com.github.beemerwt.mcrpg.annotation.JankKey;
 import com.github.beemerwt.mcrpg.annotation.JanksonObject;
 import com.github.beemerwt.mcrpg.config.AbilityConfig;
-import com.github.beemerwt.mcrpg.config.IHasBlocks;
+import com.github.beemerwt.mcrpg.config.IBlockConfig;
 import com.github.beemerwt.mcrpg.config.SkillConfig;
 import com.github.beemerwt.mcrpg.config.ability.*;
-import com.github.beemerwt.mcrpg.data.ActiveAbilityType;
 import com.github.beemerwt.mcrpg.data.SkillType;
 
 import java.util.Map;
 import java.util.Optional;
 
 @JanksonObject
-public class HerbalismConfig extends SkillConfig implements IHasBlocks {
+public class HerbalismConfig extends SkillConfig implements IBlockConfig {
 
     @JankKey("Green Thumb")
     public GreenThumbConfig greenThumb = new GreenThumbConfig();
@@ -223,18 +222,5 @@ public class HerbalismConfig extends SkillConfig implements IHasBlocks {
     @Override
     public Map<String, Integer> getBlocks() {
         return blocks;
-    }
-
-    @Override
-    public boolean hasAbility(ActiveAbilityType activeAbilityType) {
-        return activeAbilityType == ActiveAbilityType.GREEN_TERRA;
-    }
-
-    @Override
-    public Optional<AbilityConfig> getAbilityConfig(ActiveAbilityType activeAbilityType) {
-        return switch (activeAbilityType) {
-            case GREEN_TERRA -> Optional.of(greenTerra);
-            default -> Optional.empty();
-        };
     }
 }

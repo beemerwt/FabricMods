@@ -4,7 +4,8 @@ import com.github.beemerwt.mcrpg.annotation.JankComment;
 import com.github.beemerwt.mcrpg.annotation.JankKey;
 import com.github.beemerwt.mcrpg.annotation.JanksonObject;
 import com.github.beemerwt.mcrpg.config.AbilityConfig;
-import com.github.beemerwt.mcrpg.config.IHasBlocks;
+import com.github.beemerwt.mcrpg.config.IBlockConfig;
+import com.github.beemerwt.mcrpg.config.IDoubleDrops;
 import com.github.beemerwt.mcrpg.config.SkillConfig;
 import com.github.beemerwt.mcrpg.config.ability.DoubleDropsConfig;
 import com.github.beemerwt.mcrpg.config.ability.LeafBlowerConfig;
@@ -16,7 +17,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @JanksonObject
-public class WoodcuttingConfig extends SkillConfig implements IHasBlocks {
+public class WoodcuttingConfig extends SkillConfig implements IBlockConfig, IDoubleDrops {
 
     @JankKey("Double Drops")
     public DoubleDropsConfig doubleDrops = new DoubleDropsConfig();
@@ -68,5 +69,10 @@ public class WoodcuttingConfig extends SkillConfig implements IHasBlocks {
     @Override
     public Map<String, Integer> getBlocks() {
         return blocks;
+    }
+
+    @Override
+    public DoubleDropsConfig getDoubleDrops() {
+        return doubleDrops;
     }
 }

@@ -3,7 +3,7 @@ plugins {
     id "java"
 }
 
-group = 'com.github.beemerwt'
+group = project.maven_group
 version = project.mod_version
 
 base {

@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.github.beemerwt.shulkerplace.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "shulkerplace.refmap.json",
+  "mixins": [ ],
+  "client": [
+    "PickBlockMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

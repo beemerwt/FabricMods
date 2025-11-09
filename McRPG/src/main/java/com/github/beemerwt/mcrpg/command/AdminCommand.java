@@ -90,6 +90,12 @@ public final class AdminCommand {
                 .then(argument("skill", StringArgumentType.word()).suggests(SkillSuggester.INSTANCE)
                 .then(argument("amount", LongArgumentType.longArg(1))
                 .executes(AdminCommand::execSubXp)))))
+
+            .then(literal("savenow")
+                .executes(ctx -> safe(ctx, () -> {
+                    McRPG.getStore().saveAllAsync();
+                    return ok(ctx, "All player data saved.", false);
+                })))
         );
     }
 

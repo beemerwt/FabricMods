@@ -1,10 +1,14 @@
 package com.github.beemerwt.mcrpg.skills;
 
 import com.github.beemerwt.mcrpg.McRPG;
+import com.github.beemerwt.mcrpg.event.AfterDamageEvent;
+import com.github.beemerwt.mcrpg.event.AllowDamageEvent;
 import com.github.beemerwt.mcrpg.managers.ConfigManager;
 import com.github.beemerwt.mcrpg.config.skills.AcrobaticsConfig;
 import com.github.beemerwt.mcrpg.data.SkillType;
 import com.github.beemerwt.mcrpg.data.Leveling;
+import com.github.beemerwt.mcrpg.service.XpModifier;
+import com.github.beemerwt.mcrpg.util.EventBus;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.enchantment.Enchantment;
@@ -14,40 +18,41 @@ import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.ActionResult;
 
 import java.util.Set;
 
-public class Acrobatics {
-    private Acrobatics() {}
+public class Acrobatics extends Skill<AcrobaticsConfig> {
 
     private final static ThreadLocal<Integer> FALL_GUARD = ThreadLocal.withInitial(() -> 0);
 
-    public static void register() {
-        ServerLivingEntityEvents.ALLOW_DAMAGE.register((livingEntity, damageSource, amount) -> {
-            if (!(livingEntity instanceof ServerPlayerEntity player)) return true;
-            if (!damageSource.isOf(DamageTypes.FALL)) return true;
-            if (FALL_GUARD.get() > 0) return true; // Prevent recursion
+    public Acrobatics() {
+        super(SkillType.ACROBATICS);
+        EventBus.intercept(AllowDamageEvent.class, this::onAllowDamage);
+    }
 
-            float newAmount = Acrobatics.onFallDamage(player, amount);
-            if (amount == newAmount) return true;
+    private ActionResult onAllowDamage(AllowDamageEvent e) {
+        var damageSource = e.damageSource();
+        var amount = e.amount();
+        var player = e.player();
 
-            FALL_GUARD.set(FALL_GUARD.get() + 1);
-            try {
-                McRPG.getLogger().debug("Acrobatics: Intercepting fall damage of {} for {} damage.",
-                    player.getStringifiedName(), amount);
-                livingEntity.damage(player.getEntityWorld(), damageSource, newAmount);
-                return false; // Cancel original damage
-            } finally {
-                FALL_GUARD.set(FALL_GUARD.get() - 1);
-            }
-        });
+        if (!damageSource.isOf(DamageTypes.FALL)) return ActionResult.PASS;
+        if (FALL_GUARD.get() > 0) return ActionResult.PASS; // Prevent recursion
 
-        ServerLivingEntityEvents.AFTER_DAMAGE.register((entity, source, baseDamageTaken, damageTaken, blocked) -> {
-            if (!(entity instanceof ServerPlayerEntity player)) return;
-            if (!source.isOf(DamageTypes.FALL)) return;
-            McRPG.getLogger().debug("Acrobatics: Player {} took {} fall damage (base {}, blocked {}).",
-                    player.getName().getString(), damageTaken, baseDamageTaken, blocked);
-        });
+        // TODO: Dodge
+
+        float newAmount = Acrobatics.onFallDamage(player, amount);
+        if (amount == newAmount) return ActionResult.PASS;
+
+        FALL_GUARD.set(FALL_GUARD.get() + 1);
+        try {
+            McRPG.getLogger().debug("Acrobatics: Intercepting fall damage of {} for {} damage.",
+                player.getStringifiedName(), amount);
+            player.damage(player.getEntityWorld(), damageSource, newAmount);
+            return ActionResult.FAIL; // Cancel original damage
+        } finally {
+            FALL_GUARD.set(FALL_GUARD.get() - 1);
+        }
     }
 
     /**
@@ -85,7 +90,7 @@ public class Acrobatics {
         var gained = (int)(Math.floor(xp * cfg.xpModifier));
         McRPG.getLogger().debug("Awarding {} acrobatics XP to {} for {} fall damage.", gained,
             player.getStringifiedName(), originalDamage);
-        Leveling.addXp(player, SkillType.ACROBATICS, gained);
+        XpModifier.addFlat(player, SkillType.ACROBATICS, gained);
         return damageTaken;
     }
 }

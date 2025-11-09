@@ -11,4 +11,4 @@ rootProject.name = 'FabricMods'
 include ':resourcelib:API', ':resourcelib:Mod'
 
 include ':events', ':commands', ':beacontweaks', ':essence', ':mcrpg',
-    ':fakeplayer', ':telekinesis', ':spawnertweaks', ':wrench', ":quieter"
+    ':fakeplayer', ':telekinesis', ':spawnertweaks', ':wrench', ':quieter', ':shulkerplace'

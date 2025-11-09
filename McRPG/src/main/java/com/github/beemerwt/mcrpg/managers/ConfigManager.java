@@ -4,15 +4,13 @@ import blue.endless.jankson.Jankson;
 import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.api.SyntaxError;
 import com.github.beemerwt.mcrpg.McRPG;
-import com.github.beemerwt.mcrpg.config.AbilityConfig;
 import com.github.beemerwt.mcrpg.config.GeneralConfig;
-import com.github.beemerwt.mcrpg.config.IHasBlocks;
+import com.github.beemerwt.mcrpg.config.IBlockConfig;
 import com.github.beemerwt.mcrpg.config.SkillConfig;
-import com.github.beemerwt.mcrpg.config.skills.ExcavationConfig;
-import com.github.beemerwt.mcrpg.data.ActiveAbilityType;
 import com.github.beemerwt.mcrpg.data.SkillType;
 import com.github.beemerwt.mcrpg.util.FabricLogger;
 import com.github.beemerwt.mcrpg.util.JanksonSerde;
+import com.github.beemerwt.mcrpg.util.ReloadListener;
 import net.fabricmc.loader.api.FabricLoader;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,10 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 // TODO: Validate all identifiers in configs
 //       Potentially use a special type like "BlockString" or "IDString" that does validation on set
@@ -37,7 +32,8 @@ public final class ConfigManager {
 
     private static final GeneralConfig GENERAL = new GeneralConfig();
     static final Map<SkillType, SkillConfig> BY_SKILL = new EnumMap<>(SkillType.class);
-    private static volatile EnumMap<ActiveAbilityType, SkillConfig> ABILITY_TO_SKILL = new EnumMap<>(ActiveAbilityType.class);
+
+    private static final List<ReloadListener> reloadListeners = new ArrayList<>();
 
     private ConfigManager() {}
 
@@ -86,8 +82,6 @@ public final class ConfigManager {
         BY_SKILL.put(SkillType.AXES, SkillConfig.createOrLoadConfig(SkillType.AXES));
         // BY_SKILL.put(SkillType.ARCHERY, SkillConfig.createOrLoadConfig(SkillType.ARCHERY));
 
-        rebuildAbilityIndex();
-
         FabricLogger.setGlobalDebug(GENERAL.debug);
         McRPG.getLogger().info("Debug logging is {}", GENERAL.debug ? "ENABLED" : "disabled");
         McRPG.getLogger().info("Loaded {} skill configs", BY_SKILL.size());
@@ -96,6 +90,14 @@ public final class ConfigManager {
     public static void reloadAll() {
         McRPG.getLogger().info("Reloading all configs...");
         init();
+
+        for (var listener : reloadListeners) {
+            try {
+                listener.onReload();
+            } catch (Exception ex) {
+                McRPG.getLogger().error(ex, "Error during config reload listener {}", listener.getClass().getSimpleName());
+            }
+        }
     }
 
     public @NotNull static GeneralConfig getGeneralConfig() { return GENERAL; }
@@ -105,49 +107,10 @@ public final class ConfigManager {
         return (T)BY_SKILL.get(s);
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T extends AbilityConfig> Optional<T> getAbilityConfig(ActiveAbilityType a) {
-        return whichSkillHasAbility(a)
-                .flatMap(skill -> skill.getAbilityConfig(a))
-                .filter(cfg -> cfg.enabled)
-                .map(cfg -> (T) cfg);
-    }
-
-    public static Optional<SkillConfig> whichSkillHasAbility(ActiveAbilityType a) {
-        return Optional.ofNullable(ABILITY_TO_SKILL.get(a));
-    }
-
-    public static Optional<SkillConfig> whichSkillHasBlock(String blockId) {
-        return BY_SKILL.values().stream()
-                .filter(Objects::nonNull) // in case a load failed and put(null) happened
-                .filter(cfg -> cfg instanceof IHasBlocks hb && hb.hasBlock(blockId))
-                .findFirst();
-    }
-
     public static boolean isConfiguredBlock(String blockId) {
         return BY_SKILL.values().stream()
                 .filter(Objects::nonNull) // in case a load failed and put(null) happened
-                .anyMatch(cfg -> cfg instanceof IHasBlocks hb && hb.hasBlock(blockId));
-    }
-
-    public static void rebuildAbilityIndex() {
-        EnumMap<ActiveAbilityType, SkillConfig> idx = new EnumMap<>(ActiveAbilityType.class);
-
-        for (SkillConfig cfg : BY_SKILL.values()) {
-            if (cfg == null) continue;
-
-            for (ActiveAbilityType a : ActiveAbilityType.values()) {
-                if (!cfg.hasAbility(a)) continue;
-
-                SkillConfig prev = idx.putIfAbsent(a, cfg);
-                if (prev != null && prev != cfg) {
-                    McRPG.getLogger().warning("Ability {} claimed by {} and {}; keeping {}",
-                            a, prev.skillType, cfg.skillType, prev.skillType);
-                }
-            }
-        }
-
-        ABILITY_TO_SKILL = idx;
+                .anyMatch(cfg -> cfg instanceof IBlockConfig hb && hb.hasBlock(blockId));
     }
 
     public static void setDebug(boolean debug) {
@@ -165,5 +128,9 @@ public final class ConfigManager {
         } catch (Exception ex) {
             McRPG.getLogger().error(ex, "Failed to update general.json5!");
         }
+    }
+
+    public static void registerReloadListener(ReloadListener listener) {
+        reloadListeners.add(listener);
     }
 }

@@ -6,6 +6,7 @@
   "refmap": "essence.refmap.json",
   "mixins": [
     "ForceNoclipMixin",
+    "InteractRerouteMixin",
     "PlayerRespawnMixin"
   ],
   "client": [

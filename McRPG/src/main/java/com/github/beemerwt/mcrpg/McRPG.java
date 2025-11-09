@@ -2,10 +2,12 @@ package com.github.beemerwt.mcrpg;
 
 import com.github.beemerwt.mcrpg.command.AdminCommand;
 import com.github.beemerwt.mcrpg.command.SkillCommand;
+import com.github.beemerwt.mcrpg.event.EventRegistry;
 import com.github.beemerwt.mcrpg.events.*;
 import com.github.beemerwt.mcrpg.managers.ConfigManager;
 import com.github.beemerwt.mcrpg.data.PlayerStore;
 import com.github.beemerwt.mcrpg.managers.AbilityManager;
+import com.github.beemerwt.mcrpg.managers.SkillManager;
 import com.github.beemerwt.mcrpg.persistent.PlacedBlockTracker;
 import com.github.beemerwt.mcrpg.skills.*;
 import com.github.beemerwt.mcrpg.ui.HealthbarHover;
@@ -51,12 +53,14 @@ public class McRPG implements ModInitializer {
 
         LOG.info("Initializing");
         ConfigManager.init();            // loads defaults + overrides
+        EventRegistry.init();
+
+        SkillManager.init();
         AbilityManager.init();
 
-        store = PlayerStore.create();
+        store = new PlayerStore();
         PlacedBlockTracker.register();
 
-        AbilityEvents.register();
         CombatEvents.register();
 
         CommandRegistrationCallback.EVENT.register((d, access, regEnv) -> {
@@ -66,16 +70,6 @@ public class McRPG implements ModInitializer {
 
         XpBossbarManager.init();
         HealthbarHover.init();
-
-        Acrobatics.register();
-        Excavation.register();
-        Herbalism.register();
-        Mining.register();
-        Repair.register();
-        Salvage.register();
-        Smelting.register();
-        Swords.register();
-        Woodcutting.register();
 
         ServerPlayerEvents.JOIN.register(player -> {
             store.ensurePlayerRow(player.getUuid(), player.getStringifiedName());

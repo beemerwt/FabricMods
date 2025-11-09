@@ -6,9 +6,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/beacontweaks/FabricMods.beacontweaks.iml" filepath="$PROJECT_DIR$/.idea/modules/beacontweaks/FabricMods.beacontweaks.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/beacontweaks/FabricMods.beacontweaks.main.iml" filepath="$PROJECT_DIR$/.idea/modules/beacontweaks/FabricMods.beacontweaks.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/beacontweaks/FabricMods.beacontweaks.test.iml" filepath="$PROJECT_DIR$/.idea/modules/beacontweaks/FabricMods.beacontweaks.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Commands/FabricMods.commands.iml" filepath="$PROJECT_DIR$/.idea/modules/Commands/FabricMods.commands.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Commands/FabricMods.commands.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Commands/FabricMods.commands.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Commands/FabricMods.commands.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Commands/FabricMods.commands.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/commands/FabricMods.commands.main.iml" filepath="$PROJECT_DIR$/.idea/modules/commands/FabricMods.commands.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/commands/FabricMods.commands.test.iml" filepath="$PROJECT_DIR$/.idea/modules/commands/FabricMods.commands.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/essence/FabricMods.essence.iml" filepath="$PROJECT_DIR$/.idea/modules/essence/FabricMods.essence.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/essence/FabricMods.essence.main.iml" filepath="$PROJECT_DIR$/.idea/modules/essence/FabricMods.essence.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/essence/FabricMods.essence.test.iml" filepath="$PROJECT_DIR$/.idea/modules/essence/FabricMods.essence.test.iml" />
@@ -30,6 +29,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/resourcelib/Mod/FabricMods.resourcelib.Mod.test.iml" filepath="$PROJECT_DIR$/.idea/modules/resourcelib/Mod/FabricMods.resourcelib.Mod.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/resourcelib/FabricMods.resourcelib.main.iml" filepath="$PROJECT_DIR$/.idea/modules/resourcelib/FabricMods.resourcelib.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/resourcelib/FabricMods.resourcelib.test.iml" filepath="$PROJECT_DIR$/.idea/modules/resourcelib/FabricMods.resourcelib.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ShulkerPlace/FabricMods.shulkerplace.iml" filepath="$PROJECT_DIR$/.idea/modules/ShulkerPlace/FabricMods.shulkerplace.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ShulkerPlace/FabricMods.shulkerplace.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ShulkerPlace/FabricMods.shulkerplace.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ShulkerPlace/FabricMods.shulkerplace.test.iml" filepath="$PROJECT_DIR$/.idea/modules/ShulkerPlace/FabricMods.shulkerplace.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/spawnertweaks/FabricMods.spawnertweaks.iml" filepath="$PROJECT_DIR$/.idea/modules/spawnertweaks/FabricMods.spawnertweaks.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/spawnertweaks/FabricMods.spawnertweaks.main.iml" filepath="$PROJECT_DIR$/.idea/modules/spawnertweaks/FabricMods.spawnertweaks.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/spawnertweaks/FabricMods.spawnertweaks.test.iml" filepath="$PROJECT_DIR$/.idea/modules/spawnertweaks/FabricMods.spawnertweaks.test.iml" />
